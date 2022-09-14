@@ -27,4 +27,12 @@ class TestLogin:
         self.login.page_login_make(phone, pwd, secret)
         # 断言
         print("\n 获取的租户名称为", self.login.page_get_tenant_name())
-        assert expect == self.login.page_get_tenant_name()
+        try:
+            assert expect == self.login.page_get_tenant_name()
+        except Exception as e:
+            # 输出错误原因
+            print("错误原因: ", e)
+            # 截图
+            self.login.base_screenshot()
+            # 抛出异常
+            raise

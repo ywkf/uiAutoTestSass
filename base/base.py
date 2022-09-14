@@ -1,16 +1,20 @@
 import time
 
+import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 
+from tools.get_log import GetLog
+log = GetLog.get_logger()
 
 class Base:
 
-    # 获取 driver
+    # 初始化
     def __init__(self, driver):
         """
         :param driver: 获取浏览器
         """
+        log.info("正在初始化 driver: {}".format(driver))
         self.driver = driver
         self.action = ActionChains(driver)
 
@@ -22,6 +26,7 @@ class Base:
         :param poll: 查找频率
         :return: 元素
         """
+        log.info("正在查找元素：{}".format(loc))
         return WebDriverWait(self.driver, timeout=timeout, poll_frequency=poll).until(lambda x: x.find_element(*loc))
 
     # 点击元素
@@ -31,6 +36,7 @@ class Base:
         :param timeout: 超时时间
         :param poll: 查找频率
         """
+        log.info("正在对：{} 元素执行点击操作！".format(loc))
         self.base_find_element(loc, timeout, poll).click()
 
     # 输入元素
@@ -42,7 +48,9 @@ class Base:
         :param poll: 查找频率
         """
         el = self.base_find_element(loc, timeout, poll)
+        log.info("正在对：{} 元素执行清空操作！".format(loc))
         el.clear()
+        log.info("正在对：{} 元素执行输入:{} 操作！".format(loc, value))
         el.send_keys(value)
 
     # 获取输入文本
@@ -53,6 +61,7 @@ class Base:
         :param poll: 查找频率
         :return: 输入的文本
         """
+        log.info("正在对：{} 元素获取输入文本操作！，获取的文本值：{}".format(loc, self.base_find_element(loc).get_attribute('value')))
         return self.base_find_element(loc, timeout, poll).get_attribute('value')
 
     # 获取文本
@@ -63,6 +72,7 @@ class Base:
         :param poll: 查找频率
         :return: 元素的文本
         """
+        log.info("正在对：{} 元素获取文本操作！，获取的文本值：{}".format(loc, self.base_find_element(loc).text))
         return self.base_find_element(loc, timeout, poll).text.strip()
 
     # 获取元素属性
@@ -74,6 +84,7 @@ class Base:
         :param poll: 查找频率
         :return: 元素属性信息
         """
+        log.info("正在对：{} 元素获取属性操作！，获取的属性值：{}".format(loc, self.base_find_element(loc).get_attribute(attribute)))
         return self.base_find_element(loc, timeout, poll).get_attribute(attribute)
 
     # 判断元素是否存在
@@ -102,5 +113,14 @@ class Base:
 
     # 截图
     def base_screenshot(self):
-        self.driver.get_screenshot_as_file("../image/{}.png".format(time.strftime("%Y_%m_%d_%H_%M_%S")))
-        # self.driver.get_screenshot_as_file("../image/%s.png" %(time.strftime("%Y_%m_%d_%H_%M_%S")))
+        # 1. 调用截图方法
+        self.driver.get_screenshot_as_file("./image/err.png")
+        # 2. 调用图片写入报告方法
+        self.__base_write_img()
+
+    # 将截图写入报告（私有）
+    def __base_write_img(self):
+        # 1. 获取图片文件流
+        with open("./image/err.png", "rb") as f:
+            # 2. 调用allure.attach附加方法
+            allure.attach(f.read(), "错误原因: ", allure.attachment_type.PNG)

@@ -11,6 +11,13 @@ class GetDriver:
     def get_web_driver(cls, url):
         # 判断是为空
         if cls.__web_driver is None:
+
+            # options = webdriver.ChromeOptions()
+            # # 处理SSL证书错误问题
+            # options.add_argument('--ignore-certificate-errors')
+            # options.add_argument('--ignore-ssl-errors')
+            # chrome_options = options
+
             # 获取浏览器
             cls.__web_driver = webdriver.Chrome()
             # 最大化浏览器
