@@ -1,6 +1,9 @@
+import pytest
+
 import page
 from page.page_in import PageIn
 from tools.get_driver import GetDriver
+from tools.read_yaml import read_yaml
 
 
 class TestLogin:
@@ -18,8 +21,10 @@ class TestLogin:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    def test_login(self, phone="19977777777", pwd="123456", secret="NE4WEQJZ7UTZGKRYUR5PTGOGU5OJ2ZIG"):
+    @pytest.mark.parametrize("phone,pwd,secret,expect", read_yaml("login.yaml"))
+    def test_login(self, phone, pwd, secret, expect):
         # 调用登录业务方法
         self.login.page_login_make(phone, pwd, secret)
         # 断言
         print("\n 获取的租户名称为", self.login.page_get_tenant_name())
+        assert expect == self.login.page_get_tenant_name()
