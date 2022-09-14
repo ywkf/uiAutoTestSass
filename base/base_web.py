@@ -26,7 +26,7 @@ class BaseWeb(Base):
         self.action.double_click(el).perform()
 
     # 选择租户
-    def base_web_select_tenant(self, tenant='河南广播电视台'):
+    def base_web_select_tenant(self, tenant):
         """
         :param tenant: 选择租户
         """
