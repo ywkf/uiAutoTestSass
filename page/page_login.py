@@ -5,6 +5,9 @@ from base.base_web import BaseWeb
 from tools.get_google_code import GetGoogleCode
 from time import sleep
 
+from tools.get_log import GetLog
+log = GetLog.get_logger()
+
 
 class PageLogin(BaseWeb):
 
@@ -67,6 +70,7 @@ class PageLogin(BaseWeb):
 
     # 登录依赖方法
     def page_login_success(self, phone, pwd):
+        log.info("正在调用技术部角色权限登录方法，手机号：{} 密码：{}".format(phone, pwd))
         self.page_input_phone(phone)
         self.page_input_pwd(pwd)
         self.page_click_login_btn()
@@ -84,6 +88,7 @@ class PageLogin(BaseWeb):
 
     # 组合登录方法(制作权限)
     def page_login_make(self, phone, pwd, secret):
+        log.info("正在调用制作权限登录方法，手机号：{} 密码：{} secretKey：{}".format(phone, pwd, secret))
         self.page_input_phone(phone)
         self.page_input_pwd(pwd)
         sleep(0.5)

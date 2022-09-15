@@ -50,7 +50,7 @@ class Base:
         el = self.base_find_element(loc, timeout, poll)
         log.info("正在对：{} 元素执行清空操作！".format(loc))
         el.clear()
-        log.info("正在对：{} 元素执行输入:{} 操作！".format(loc, value))
+        log.info("正在对：{} 元素执行输入：{} 操作！".format(loc, value))
         el.send_keys(value)
 
     # 获取输入文本
@@ -61,8 +61,9 @@ class Base:
         :param poll: 查找频率
         :return: 输入的文本
         """
-        log.info("正在对：{} 元素获取输入文本操作！，获取的文本值：{}".format(loc, self.base_find_element(loc).get_attribute('value')))
-        return self.base_find_element(loc, timeout, poll).get_attribute('value')
+        value = self.base_find_element(loc, timeout, poll).get_attribute('value')
+        log.info("正在对：{} 元素获取输入文本操作！，获取的文本值：{}".format(loc, value))
+        return value
 
     # 获取文本
     def base_get_text(self, loc, timeout=30, poll=0.5):
@@ -72,8 +73,9 @@ class Base:
         :param poll: 查找频率
         :return: 元素的文本
         """
-        log.info("正在对：{} 元素获取文本操作！，获取的文本值：{}".format(loc, self.base_find_element(loc).text))
-        return self.base_find_element(loc, timeout, poll).text.strip()
+        text = self.base_find_element(loc, timeout, poll).text.strip()
+        log.info("正在对：{} 元素获取文本操作！，获取的文本值：{}".format(loc, text))
+        return text
 
     # 获取元素属性
     def base_get_ele_attribute(self, loc, attribute, timeout=30, poll=0.5):
@@ -84,8 +86,9 @@ class Base:
         :param poll: 查找频率
         :return: 元素属性信息
         """
-        log.info("正在对：{} 元素获取属性操作！，获取的属性值：{}".format(loc, self.base_find_element(loc).get_attribute(attribute)))
-        return self.base_find_element(loc, timeout, poll).get_attribute(attribute)
+        attribute_value = self.base_find_element(loc, timeout, poll).get_attribute(attribute)
+        log.info("正在对：{} 元素获取属性操作！，获取的属性：[{}]，属性值：{}".format(loc, attribute, attribute_value))
+        return attribute_value
 
     # 判断元素是否存在
     def base_ele_is_exist(self, loc, timeout=30, poll=0.5):
@@ -95,10 +98,13 @@ class Base:
         :param poll: 查找频率
         :return: 元素是否存在
         """
+        log.info("正在调用查找页面是否存在指定元素：{} 方法".format(loc))
         try:
             self.base_find_element(loc, timeout, poll)
+            print("找到：{} 元素啦！".format(loc))
             return True
         except:
+            print("没有找到：{} 元素！".format(loc))
             return False
 
     # 判断按钮元素是否可用
@@ -109,13 +115,38 @@ class Base:
         :param poll: 查找频率
         :return: 元素是否可用
         """
+        log.info("正在调用查找页面指定元素：{} 是否可用方法".format(loc))
         return self.base_find_element(loc, timeout, poll).is_enabled()
+
+    # 指针移动
+    def base_web_mouse_move_to(self, loc, timeout=30, poll=0.5):
+        """
+        :param loc: 元素定位信息
+        :param timeout: 超时时间
+        :param poll: 查找频率
+        """
+        log.info("正在调用指针移动方法，移动位置：{}".format(loc))
+        el = self.base_find_element(loc, timeout, poll)
+        self.action.move_to_element(el).perform()
+
+    # 双击
+    def base_web_mouse_double_click(self, loc, timeout=30, poll=0.5):
+        """
+        :param loc: 元素定位信息
+        :param timeout: 超时时间
+        :param poll: 查找频率
+        """
+        log.info("正在对：{} 元素执行双击操作！".format(loc))
+        el = self.base_find_element(loc, timeout, poll)
+        self.action.double_click(el).perform()
 
     # 截图
     def base_screenshot(self):
         # 1. 调用截图方法
+        log.error("断言出错，正在执行截图操作！")
         self.driver.get_screenshot_as_file("./image/err.png")
         # 2. 调用图片写入报告方法
+        log.error("断言出错，正在将错误截图写入allure报告！")
         self.__base_write_img()
 
     # 将截图写入报告（私有）

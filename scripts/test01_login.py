@@ -3,8 +3,9 @@ import pytest
 import page
 from page.page_in import PageIn
 from tools.get_driver import GetDriver
+from tools.get_log import GetLog
 from tools.read_yaml import read_yaml
-
+log = GetLog.get_logger()
 
 class TestLogin:
 
@@ -30,6 +31,7 @@ class TestLogin:
         try:
             assert expect == self.login.page_get_tenant_name()
         except Exception as e:
+            log.error("断言出错，错误信息：{}".format(e))
             # 输出错误原因
             print("错误原因: ", e)
             # 截图
