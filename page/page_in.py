@@ -1,4 +1,4 @@
-from base.base_web import BaseWeb
+from page.page_director import PageDirector
 from page.page_login import PageLogin
 
 
@@ -11,3 +11,7 @@ class PageIn:
     # 登录
     def get_page_login(self):
         return PageLogin(self.driver)
+
+    # 频道导播
+    def get_page_director(self):
+        return PageDirector(self.driver)

@@ -86,9 +86,9 @@ class PageLogin(BaseWeb):
         self.page_select_tenant()
         self.page_click_enter_btn()
 
-    # 组合登录方法(制作权限)
-    def page_login_make(self, phone, pwd, secret):
-        log.info("正在调用制作权限登录方法，手机号：{} 密码：{} secretKey：{}".format(phone, pwd, secret))
+    # 组合登录方法(角色权限)
+    def page_login_role(self, phone, pwd, secret):
+        log.info("正在调用角色权限登录方法，手机号：{} 密码：{} secretKey：{}".format(phone, pwd, secret))
         self.page_input_phone(phone)
         self.page_input_pwd(pwd)
         sleep(0.5)
@@ -97,7 +97,12 @@ class PageLogin(BaseWeb):
         self.page_input_code(code)
         sleep(0.5)
         self.page_click_confirm_btn()
-        sleep(1)
+        sleep(0.5)
+        msg_ex = self.base_ele_is_exist(page.login_msg, timeout=3, poll=0.2)
+        if msg_ex:
+            self.page_login_role(phone, pwd, secret)
+
+
 
 
 

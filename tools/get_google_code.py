@@ -1,4 +1,5 @@
 import hmac, base64, struct, hashlib, time
+import operator
 import sys
 import re
 
@@ -34,12 +35,9 @@ class GetGoogleCode:
         return self.cal_google_code(secret)
 
 
-
 if __name__ == '__main__':
-    # qr = 'zuwhrtmfuo5rrmfe6jw2yb7w3sf3jc3g'
-    # code = GetGoogleCode().cal_google_code(qr)
-    # print(code)
     title = "otpauth://totp/HNTV%3A19977777777?secret=ne4weqjz7utzgkryur5ptgogu5oj2zig&issuer=HNTV"
-    # GetGoogleCode().get_secret(title)
     code = GetGoogleCode().get_google_code(title)
     print(code)
+    secret = "zuwhrtmfuo5rrmfe6jw2yb7w3sf3jc3g"
+    print(secret.upper())

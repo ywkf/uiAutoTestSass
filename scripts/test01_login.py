@@ -7,6 +7,7 @@ from tools.get_log import GetLog
 from tools.read_yaml import read_yaml
 log = GetLog.get_logger()
 
+
 class TestLogin:
 
     # 初始化
@@ -25,7 +26,7 @@ class TestLogin:
     @pytest.mark.parametrize("phone,pwd,secret,expect", read_yaml("login.yaml"))
     def test_login(self, phone, pwd, secret, expect):
         # 调用登录业务方法
-        self.login.page_login_make(phone, pwd, secret)
+        self.login.page_login_role(phone, pwd, secret)
         # 断言
         print("\n 获取的租户名称为", self.login.page_get_tenant_name())
         try:

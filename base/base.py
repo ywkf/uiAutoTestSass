@@ -7,6 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tools.get_log import GetLog
 log = GetLog.get_logger()
 
+
 class Base:
 
     # 初始化
@@ -77,6 +78,21 @@ class Base:
         log.info("正在对：{} 元素获取文本操作！，获取的文本值：{}".format(loc, text))
         return text
 
+    # 获取文本列表
+    def base_get_text_list(self, loc, timeout=30, poll=0.5):
+        """
+        :param loc: 元素定位信息
+        :param timeout: 超时时间
+        :param poll: 查找频率
+        :return:
+        """
+        text_list = []
+        ele_list = WebDriverWait(self.driver, timeout=timeout, poll_frequency=poll).until(lambda x: x.find_elements(*loc))
+        for ele in ele_list:
+            text = ele.text
+            text_list.append(text)
+        return text_list
+
     # 获取元素属性
     def base_get_ele_attribute(self, loc, attribute, timeout=30, poll=0.5):
         """
@@ -119,7 +135,7 @@ class Base:
         return self.base_find_element(loc, timeout, poll).is_enabled()
 
     # 指针移动
-    def base_web_mouse_move_to(self, loc, timeout=30, poll=0.5):
+    def base_mouse_move_to(self, loc, timeout=30, poll=0.5):
         """
         :param loc: 元素定位信息
         :param timeout: 超时时间
@@ -130,7 +146,7 @@ class Base:
         self.action.move_to_element(el).perform()
 
     # 双击
-    def base_web_mouse_double_click(self, loc, timeout=30, poll=0.5):
+    def base_mouse_double_click(self, loc, timeout=30, poll=0.5):
         """
         :param loc: 元素定位信息
         :param timeout: 超时时间
