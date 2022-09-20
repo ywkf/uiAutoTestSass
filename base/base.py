@@ -55,7 +55,7 @@ class Base:
         el.send_keys(value)
 
     # 获取输入文本
-    def base_input_get_value(self, loc, timeout=30, poll=0.5):
+    def base_get_input_value(self, loc, timeout=30, poll=0.5):
         """
         :param loc: 元素定位信息
         :param timeout: 超时时间
@@ -107,7 +107,7 @@ class Base:
         return attribute_value
 
     # 判断元素是否存在
-    def base_ele_is_exist(self, loc, timeout=30, poll=0.5):
+    def base_ele_is_exist(self, loc, timeout=5, poll=0.2):
         """
         :param loc: 元素定位信息
         :param timeout: 超时时间
@@ -164,6 +164,10 @@ class Base:
         # 2. 调用图片写入报告方法
         log.error("断言出错，正在将错误截图写入allure报告！")
         self.__base_write_img()
+
+    # 刷新
+    def base_refresh(self):
+        self.driver.refresh()
 
     # 将截图写入报告（私有）
     def __base_write_img(self):

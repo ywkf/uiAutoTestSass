@@ -1,5 +1,20 @@
 login001:
+  phone: "199777777778"
+  pwd: "123456"
+  expect: "要操作的用户不存在"
+login002:
+  phone: "19977777777"
+  pwd: "1234567"
+  expect: "密码错误"
+login003:
+  phone: ""
+  pwd: "123456"
+  expect: "请输入手机号"
+login004:
+  phone: "19977777777"
+  pwd: ""
+  expect: "请输入密码"
+login005:
   phone: "19977777777"
   pwd: "123456"
-  secret: "NE4WEQJZ7UTZGKRYUR5PTGOGU5OJ2ZIG"
-  expect: "河南广播电视台"
+  expect: "动态口令"

@@ -20,16 +20,26 @@ class PageDirector(BaseWeb):
         self.base_click(page.director_create_week)
 
     # 选择所属频道
-    def page_select_channel(self):
-        pass
+    def page_select_channel(self, channel):
+        self.base_web_click_element("请选择频道", channel)
 
     # 选择周播单时间
     def page_select_date(self, date):
         self.base_web_select_date(date)
 
+    # 获取周播单名称
+    def page_get_week_name(self):
+        return self.base_get_input_value(page.director_week_name)
+
+    # 输入开播时间
+    def page_input_playtime(self, time):
+        self.base_web_input_time(page.director_playtime, time)
+        print("playtime_new: ", self.base_get_input_value(page.director_playtime))
+
     # 输入时长
-    def page_input_time(self):
-        pass
+    def page_input_duration(self, time):
+        self.base_web_input_time(page.director_duration, time)
+        print("duration_new: ", self.base_get_input_value(page.director_duration))
 
     # 输入节目名称
     def page_input_name(self):
@@ -100,9 +110,13 @@ class PageDirector(BaseWeb):
         pass
 
     # 组合业务方法
-    def page_program_arrange(self, date):
+    def page_program_arrange(self, channel, date, playtime, time):
         self.page_click_arrange()
         self.page_click_create_week()
+        self.page_select_channel(channel)
         self.page_select_date(date)
+        self.page_input_playtime(playtime)
+        self.page_input_duration(time)
+        sleep(2)
 
 

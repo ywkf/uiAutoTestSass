@@ -23,6 +23,7 @@ class TestDirector:
 
     # 测试业务方法
     def test_director(self):
-        date = {"year": "2022", "month": "八月", "day": "6"}
-        self.director.page_program_arrange(date)
+        date = {"year": "2020", "month": "八月", "day": "6"}
+        self.director.page_program_arrange("法治频道", date, "00:00:10:00", "12:12:12:12")
+        print(self.director.page_get_week_name())
         print(self.director.base_get_text(page.date_program))

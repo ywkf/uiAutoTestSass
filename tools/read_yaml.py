@@ -17,5 +17,6 @@ def read_yaml(filename):
     # 返回 结果
     return arr
 
+
 if __name__ == '__main__':
     print(read_yaml("login.yaml"))

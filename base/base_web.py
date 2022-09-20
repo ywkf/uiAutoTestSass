@@ -74,6 +74,7 @@ class BaseWeb(Base):
 
     # 选择日期
     def base_web_select_date(self, date):
+        log.info("正在调用web专属选择日期封装方法")
         # date = {"year": "2022", "month": "八月", "day": "6"}
         loc_Y = By.XPATH, "//*[@class='cell'][text()='{}']".format(date.get("year"))
         loc_m = By.XPATH, "//*[@class='cell'][text()='{}']".format(date.get("month"))
@@ -101,6 +102,15 @@ class BaseWeb(Base):
             if contains_year:
                 # 调用方法选择年份 >
                 self.__select_year(loc_Y, loc_m, loc_d)
+
+    # 输入时间
+    def base_web_input_time(self, loc, time):
+        log.info("正在调用web专属输入时间封装方法")
+        # time = "11:12:12:12"
+        time_list = time.split(":")
+        self.base_find_element(loc, timeout=30, poll=0.5).send_keys(0)
+        for time in time_list:
+            self.base_find_element(loc, timeout=30, poll=0.5).send_keys(time)
 
 
 

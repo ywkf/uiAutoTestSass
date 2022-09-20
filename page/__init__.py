@@ -29,6 +29,8 @@ login_pwd = By.CSS_SELECTOR, "#passVal"
 login_btn = By.CSS_SELECTOR, "#submit"
 # 动态口令
 login_code = By.CSS_SELECTOR, "#codeNum"
+# 动态口令标识
+login_codem_mark = By.CSS_SELECTOR, "[class='layui-form-label']"
 # 忘记谷歌码按钮
 login_google_code_btn = By.CSS_SELECTOR, ".layui-layer-btn2"
 # QRCode
@@ -43,6 +45,8 @@ login_hntv = By.XPATH, "//*[text()='河南广播电视台']"
 login_enter_btn = By.XPATH, "//button//*[contains(text(),'进入')]"
 # 租户名称
 login_tenant = By.XPATH, "//main//*[@style='color: rgb(255, 255, 255);']"
+# 退出系统
+login_logout = By.XPATH, "//*[text()='退出系统']"
 
 # 日期选择框
 date_select = By.CSS_SELECTOR, "[placeholder='选择日期']"
@@ -67,4 +71,10 @@ date_program = By.XPATH, "//*[@class='time']//span[1]"
 director_arrange = By.XPATH, "//*[text()='节目编单']/.."
 # 创建周播单
 director_create_week = By.XPATH, "//li//*[text()='创建周播单']"
+# 周播单名称
+director_week_name = By.XPATH, "//*[text()='周播单名称']/..//input"
+# 开播时间
+director_playtime = By.XPATH, "//*[@class='el-table_1_column_3   el-table__cell']//input"
+# 时长
+director_duration = By.XPATH, "//*[@class='el-table_1_column_4   el-table__cell']//input"
 

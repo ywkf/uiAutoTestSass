@@ -1,0 +1,10 @@
+login001:
+  phone: "19977777777"
+  pwd: "123456"
+  secret: "NE4WEQJZ7UTZGKRYUR5PTGOGU5OJ2ZIG"
+  expect: "河南广播电视台"
+login002:
+  phone: "19933333333"
+  pwd: "123456"
+  secret: "ZUWHRTMFUO5RRMFE6JW2YB7W3SF3JC3G"
+  expect: "河南广播电视台"
