@@ -25,7 +25,7 @@ class TestLogin:
 
     # 测试业务方法
     @pytest.mark.parametrize("phone,pwd,secret,expect", read_yaml("login_code.yaml"))
-    def test_login01(self, phone, pwd, secret, expect):
+    def test01_login(self, phone, pwd, secret, expect):
         # 调用登录业务方法
         self.login.page_login_role(phone, pwd, secret)
         sleep(0.5)
@@ -44,7 +44,7 @@ class TestLogin:
             raise
 
     @pytest.mark.parametrize("phone,pwd,expect", read_yaml("login.yaml"))
-    def test_login02(self, phone, pwd, expect):
+    def test02_login(self, phone, pwd, expect):
         # 调用登录业务方法（验证码前）
         self.login.page_login_before_code(phone, pwd)
         sleep(0.5)

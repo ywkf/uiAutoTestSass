@@ -1,6 +1,16 @@
 from selenium.webdriver.common.by import By
 
 
+def find_attr_by_num(row, col):
+    loc = By.XPATH, director_program_input[1].format(row, col)
+    return loc
+
+
+def find_btn_by_num(row, btn_num):
+    loc = By.XPATH, director_program_button[1].format(row, attr_num.get("button"), btn_num)
+    return loc
+
+
 """项目配置地址"""
 
 # url
@@ -77,4 +87,33 @@ director_week_name = By.XPATH, "//*[text()='周播单名称']/..//input"
 director_playtime = By.XPATH, "//*[@class='el-table_1_column_3   el-table__cell']//input"
 # 时长
 director_duration = By.XPATH, "//*[@class='el-table_1_column_4   el-table__cell']//input"
-
+# 节目名称
+director_program_name = By.XPATH, "//tr[{}]//*[@class='el-table_1_column_5   el-table__cell']//input"
+# 定位属性
+director_program_row = By.XPATH, "//tr[{}]//*[@class='el-table_1_column_{}   el-table__cell']"
+# 定位输入框
+director_program_input = By.XPATH, director_program_row[1] + "//input"
+# 定位行按钮
+director_program_button = By.XPATH, director_program_row[1] + "//button[{}]"
+# 属性编号
+attr_num = {
+                "play_mode": 2,
+                "playtime": 3,
+                "duration": 4,
+                "program_name": 5,
+                "program_type": 6,
+                "column": 7,
+                "prebroadcast_type": 8,
+                "self_type": 9,
+                "button": 10
+           }
+# 按钮编号
+button_num = {
+                "sort_up": 1,
+                "sort_down": 2,
+                "plus": 3
+             }
+# 行删除按钮
+director_program_delete_btn = By.XPATH, director_program_row[1] + "//*[@class='el-icon-delete']//.."
+# 复选框
+director_selector = By.XPATH, "//*[@x-placement='bottom-start']//*[text()='{}']"

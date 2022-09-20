@@ -3,6 +3,8 @@ import operator
 import sys
 import re
 
+import page
+
 
 class GetGoogleCode:
 

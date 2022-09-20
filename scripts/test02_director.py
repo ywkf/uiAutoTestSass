@@ -1,6 +1,9 @@
+import pytest
+
 import page
 from page.page_in import PageIn
 from tools.get_driver import GetDriver
+from tools.read_yaml import read_yaml
 
 
 class TestDirector:
@@ -22,8 +25,26 @@ class TestDirector:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    def test_director(self):
-        date = {"year": "2020", "month": "八月", "day": "6"}
-        self.director.page_program_arrange("法治频道", date, "00:00:10:00", "12:12:12:12")
+    def test01_director(self):
+        data = {
+            "channel": "法治频道",
+            "date": {"year": "2020", "month": "八月", "day": "6"},
+            "row": 1,
+            "playtime": "12:11:10:09",
+            "duration": "12:12:12:12",
+            "program_name": "法制剧场",
+            "program_type": "电视剧",
+            "column": "法制剧场",
+            "prebroadcast_type": "普通",
+            "self_type": "自办",
+        }
+        self.director.page_program_week_info(data)
         print(self.director.page_get_week_name())
         print(self.director.base_get_text(page.date_program))
+
+    # 测试业务方法
+    @pytest.mark.parametrize("row,duration,program_name,program_type,column,prebroadcast_type,self_type", read_yaml("director.yaml"))
+    def test02_director(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):
+        self.director.page_program_week_insert(row, duration, program_name, program_type, column, prebroadcast_type, self_type)
+        self.director.page_insert_program(row)
+

@@ -110,7 +110,20 @@ class BaseWeb(Base):
         time_list = time.split(":")
         self.base_find_element(loc, timeout=30, poll=0.5).send_keys(0)
         for time in time_list:
+            # sleep(0.1)
             self.base_find_element(loc, timeout=30, poll=0.5).send_keys(time)
+
+    # 定位属性
+    def base_web_find_by_num(self, row, col):
+        loc = "//tr[{}]//*[@class='el-table_1_column_{}   el-table__cell']//input".format(row, col)
+        return self.base_find_element(loc, timeout=30, poll=0.5)
+
+    # 下拉框选择
+    def base_web_selector(self, text):
+        sleep(0.5)
+        loc = (page.director_selector[0], page.director_selector[1].format(text))
+        self.base_click(loc)
+
 
 
 
