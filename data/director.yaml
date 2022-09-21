@@ -10,7 +10,31 @@ login002:
   row: 2
   duration: "00:15:00:00"
   program_name: "法制剧场2"
+  program_type: "自办栏目"
+  column: "法制剧场"
+  prebroadcast_type: "普通"
+  self_type: "自办"
+login003:
+  row: 3
+  duration: "00:15:00:00"
+  program_name: ""
+  program_type: ""
+  column: ""
+  prebroadcast_type: "普通"
+  self_type: "自办"
+login004:
+  row: 4
+  duration: "00:15:00:00"
+  program_name: "法制剧场4"
   program_type: "电视剧"
+  column: "法制剧场"
+  prebroadcast_type: "普通"
+  self_type: "自办"
+login005:
+  row: 5
+  duration: "00:15:00:00"
+  program_name: "法制剧场5"
+  program_type: "应急备播"
   column: "法制剧场"
   prebroadcast_type: "普通"
   self_type: "自办"

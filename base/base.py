@@ -117,10 +117,10 @@ class Base:
         log.info("正在调用查找页面是否存在指定元素：{} 方法".format(loc))
         try:
             self.base_find_element(loc, timeout, poll)
-            print("找到：{} 元素啦！".format(loc))
+            log.info("找到：{} 元素啦！".format(loc))
             return True
         except:
-            print("没有找到：{} 元素！".format(loc))
+            log.info("没有找到：{} 元素！".format(loc))
             return False
 
     # 判断按钮元素是否可用

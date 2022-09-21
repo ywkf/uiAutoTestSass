@@ -31,17 +31,19 @@ class PageDirector(BaseWeb):
     def page_get_week_name(self):
         return self.base_get_input_value(page.director_week_name)
 
+    # 选择播放方式
+    def page_select_play_type(self, row, play_type):
+        self.base_web_select_attr(row, "play_type", play_type)
+
     # 输入开播时间
     def page_input_playtime(self, row, time):
         loc = page.find_attr_by_num(row, page.attr_num.get("playtime"))
         self.base_web_input_time(loc, time)
-        print("playtime_new: ", self.base_get_input_value(page.director_playtime))
 
     # 输入时长
     def page_input_duration(self, row, time):
         loc = page.find_attr_by_num(row, page.attr_num.get("duration"))
         self.base_web_input_time(loc, time)
-        print("duration_new: ", self.base_get_input_value(page.director_duration))
 
     # 输入节目名称
     def page_input_name(self, row, program_name):
@@ -50,35 +52,19 @@ class PageDirector(BaseWeb):
 
     # 选择节目类型
     def page_select_type(self, row, program_type):
-        loc = page.find_attr_by_num(row, page.attr_num.get("program_type"))
-        value = self.base_get_input_value(loc)
-        if value != program_type:
-            self.base_click(loc)
-            self.base_web_selector(program_type)
+        self.base_web_select_attr(row, "program_type", program_type)
 
     # 选择所属栏目
     def page_select_column(self, row, column):
-        loc = page.find_attr_by_num(row, page.attr_num.get("column"))
-        value = self.base_get_input_value(loc)
-        if value != column:
-            self.base_click(loc)
-            self.base_web_selector(column)
+        self.base_web_select_attr(row, "column", column)
 
     # 选择备播类型
     def page_select_prebroadcast_type(self, row, prebroadcast_type):
-        loc = page.find_attr_by_num(row, page.attr_num.get("prebroadcast_type"))
-        value = self.base_get_input_value(loc)
-        if value != prebroadcast_type:
-            self.base_click(loc)
-            self.base_web_selector(prebroadcast_type)
+        self.base_web_select_attr(row, "prebroadcast_type", prebroadcast_type)
 
     # 选择自办类型
     def page_select_self_type(self, row, self_type):
-        loc = page.find_attr_by_num(row, page.attr_num.get("self_type"))
-        value = self.base_get_input_value(loc)
-        if value != self_type:
-            self.base_click(loc)
-            self.base_web_selector(self_type)
+        self.base_web_select_attr(row, "self_type", self_type)
 
     # 在此节目下插入一条节目
     def page_insert_program(self, row):
@@ -86,25 +72,32 @@ class PageDirector(BaseWeb):
         self.base_click(loc)
         sleep(0.5)
 
+    # 删除此条节目
+    def page_delete_program(self, row):
+        loc = page.find_btn_by_num(row, page.button_num.get("delete"))
+        self.base_click(loc)
+        sleep(0.5)
+        self.base_click(page.director_program_delete_confirm_btn)
+
     # 获取错误信息数量
     def page_get_error_num(self):
-        pass
+        return self.base_get_text(page.director_error_num)
 
-    # 点击下一天
-    def page_click_next_day(self):
-        pass
+    # 点击周
+    def page_click_next_day(self, week):
+        self.base_web_select_week_num(week)
 
     # 点击新建
     def page_click_new(self):
-        pass
+        self.base_click(page.director_new_btn)
 
     # 点击提交
     def page_click_submit(self):
-        pass
+        self.base_click(page.director_submit_btn)
 
     # 点击创建日播单
     def page_create_day(self):
-        pass
+        self.base_click(page.director_create_day)
 
     # 选择所属周播单
     def page_select_week(self):
@@ -130,15 +123,17 @@ class PageDirector(BaseWeb):
     def page_create_day_list(self):
         pass
 
-    # 输入基本信息
-    def page_program_week_info(self, data):
+    # 输入周播单基本信息
+    def page_program_week_info(self, channel, date, playtime):
+        date = {"year": "2020", "month": "八月", "day": "6"}
         self.page_click_arrange()
         self.page_click_create_week()
-        self.page_select_channel(data.get("channel"))
-        self.page_select_date(data.get("date"))
+        self.page_select_channel(channel)
+        self.page_select_date(date)
         sleep(1)
+        self.page_input_playtime(1, playtime)
 
-    # 添加节目单
+    # 创建周播单
     def page_program_week_insert0(self, data):
         row = data.get("row")
         self.page_input_playtime(1, data.get("playtime"))
@@ -151,7 +146,7 @@ class PageDirector(BaseWeb):
         # self.page_insert_program(row)
         sleep(1)
 
-    # 添加节目单
+    # 创建周播单
     def page_program_week_insert(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):
         # self.page_input_playtime(1, data.get("playtime"))
         self.page_input_duration(row, duration)
@@ -161,7 +156,7 @@ class PageDirector(BaseWeb):
         self.page_select_prebroadcast_type(row, prebroadcast_type)
         self.page_select_self_type(row, self_type)
         # self.page_insert_program(row)
-        sleep(1)
+        sleep(0.5)
 
     # 组合业务方法
     def page_program_arrange(self, data):

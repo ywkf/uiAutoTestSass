@@ -8,6 +8,8 @@ def find_attr_by_num(row, col):
 
 def find_btn_by_num(row, btn_num):
     loc = By.XPATH, director_program_button[1].format(row, attr_num.get("button"), btn_num)
+    if btn_num == 6:
+        loc = By.XPATH, director_program_delete_btn[1].format(row, attr_num.get("button"))
     return loc
 
 
@@ -89,11 +91,11 @@ director_playtime = By.XPATH, "//*[@class='el-table_1_column_3   el-table__cell'
 director_duration = By.XPATH, "//*[@class='el-table_1_column_4   el-table__cell']//input"
 # 节目名称
 director_program_name = By.XPATH, "//tr[{}]//*[@class='el-table_1_column_5   el-table__cell']//input"
-# 定位属性
+# 节目定位
 director_program_row = By.XPATH, "//tr[{}]//*[@class='el-table_1_column_{}   el-table__cell']"
-# 定位输入框
+# 节目属性输入框
 director_program_input = By.XPATH, director_program_row[1] + "//input"
-# 定位行按钮
+# 节目操作按钮
 director_program_button = By.XPATH, director_program_row[1] + "//button[{}]"
 # 属性编号
 attr_num = {
@@ -111,9 +113,36 @@ attr_num = {
 button_num = {
                 "sort_up": 1,
                 "sort_down": 2,
-                "plus": 3
+                "plus": 3,
+                "delete": 6
              }
-# 行删除按钮
+# 节目删除按钮
 director_program_delete_btn = By.XPATH, director_program_row[1] + "//*[@class='el-icon-delete']//.."
-# 复选框
-director_selector = By.XPATH, "//*[@x-placement='bottom-start']//*[text()='{}']"
+# 删除确定按钮
+director_program_delete_confirm_btn = By.XPATH, "//*[@aria-hidden='false']//*[normalize-space(text())='确定']"
+# 复选框down
+director_selector = By.XPATH, "//*[@x-placement='bottom-start']//*[text()='{}']/.."
+# 复选框up
+director_selector_or = By.XPATH, "//*[@x-placement='top-start']//*[text()='{}']/.."
+# 错误信息数量
+director_error_num = By.XPATH, "//sup"
+# 周
+director_week_num = By.CSS_SELECTOR, "#tab-{}"
+# week编号
+week_num = {
+    "周一": 1,
+    "周二": 2,
+    "周三": 3,
+    "周四": 4,
+    "周五": 5,
+    "周六": 6,
+    "周日": 0,
+}
+# 新建按钮
+director_new_btn = By.XPATH, "//*[normalize-space(text())='新建']/.."
+# 提交按钮
+director_submit_btn = By.XPATH, "//*[normalize-space(text())='提交']/.."
+# 周播单
+director_week_program = ""
+# 创建日播单
+director_create_day = By.XPATH, "//li//*[text()='创建日播单']"

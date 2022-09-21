@@ -118,12 +118,31 @@ class BaseWeb(Base):
         loc = "//tr[{}]//*[@class='el-table_1_column_{}   el-table__cell']//input".format(row, col)
         return self.base_find_element(loc, timeout=30, poll=0.5)
 
-    # 下拉框选择
-    def base_web_selector(self, text):
-        sleep(0.5)
-        loc = (page.director_selector[0], page.director_selector[1].format(text))
-        self.base_click(loc)
+    # 根据行和属性名称选择对应属性
+    def base_web_select_attr(self, row, attr_name, attr):
+        log.info("正在调用web专属选择属性封装方法")
+        loc = page.find_attr_by_num(row, page.attr_num.get(attr_name))
+        value = self.base_get_input_value(loc)
+        if value != attr and attr is not None:
+            self.base_click(loc)
+            self.base_web_selector(attr)
 
+    # 复选框选择
+    def base_web_selector(self, text):
+        log.info("正在调用web专属复选框选择封装方法")
+        sleep(0.2)
+        loc = (page.director_selector[0], page.director_selector[1].format(text))
+        loc_or = (page.director_selector_or[0], page.director_selector_or[1].format(text))
+        if self.base_ele_is_exist(loc, timeout=0.2, poll=0.05):
+            self.base_click(loc)
+        if self.base_ele_is_exist(loc_or, timeout=0.2, poll=0.05):
+            self.base_click(loc_or)
+
+    # 周选择
+    def base_web_select_week_num(self, week):
+        loc = (page.director_week_num[0], page.director_week_num[1].format(page.week_num.get(week)))
+        self.base_click(loc)
+        sleep(0.5)
 
 
 
