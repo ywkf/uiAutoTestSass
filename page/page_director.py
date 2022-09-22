@@ -2,6 +2,8 @@ import page
 from base.base_web import BaseWeb
 from time import sleep
 
+from tools.get_program import GetProgram
+
 
 class PageDirector(BaseWeb):
 
@@ -84,8 +86,8 @@ class PageDirector(BaseWeb):
         return self.base_get_text(page.director_error_num)
 
     # 点击周
-    def page_click_next_day(self, week):
-        self.base_web_select_week_num(week)
+    def page_click_next_day(self, week_num):
+        self.base_web_select_week_num(week_num)
 
     # 点击新建
     def page_click_new(self):
@@ -101,7 +103,7 @@ class PageDirector(BaseWeb):
 
     # 选择所属周播单
     def page_select_week(self):
-        pass
+        self.sel
 
     # 选择播出日期
     def page_select_broadcast_date(self):
@@ -124,27 +126,42 @@ class PageDirector(BaseWeb):
         pass
 
     # 输入周播单基本信息
-    def page_program_week_info(self, channel, date, playtime):
-        date = {"year": "2020", "month": "八月", "day": "6"}
+    def page_program_week_info(self, channel, date):
+        # date = {"year": "2020", "month": "八月", "day": "6"}
         self.page_click_arrange()
         self.page_click_create_week()
         self.page_select_channel(channel)
         self.page_select_date(date)
         sleep(1)
-        self.page_input_playtime(1, playtime)
 
-    # 创建周播单
-    def page_program_week_insert0(self, data):
+    # 周播单添加节目(频道导播)
+    def page_program_week_program_insert(self, data):
         row = data.get("row")
-        self.page_input_playtime(1, data.get("playtime"))
         self.page_input_duration(row, data.get("duration"))
         self.page_input_name(row, data.get("program_name"))
-        self.page_select_type(row, data.get("program_type"))
         self.page_select_column(row, data.get("column"))
-        self.page_select_prebroadcast_type(row, data.get("prebroadcast_type"))
-        self.page_select_self_type(row, data.get("self_type"))
-        # self.page_insert_program(row)
         sleep(1)
+
+    # 创建周播单(频道导播)
+    def page_program_week_create_form(self, filename):
+        for table in range(7):
+            # prog_list = GetProgram(filename).get_program(table)
+            prog_list = [{'row': '1', 'duration': '12:00:00', 'program_name': '好剧连连看-1', 'column': '河南法治报道'},
+                         {'row': '2', 'duration': '12:00:00', 'program_name': '好剧连连看-2', 'column': '河南法治报道'}]
+            last = prog_list[-1].get("row")
+            for prog in prog_list:
+                row = prog.get("row")
+                self.page_program_week_program_insert(prog)
+                if row != last:
+                    self.page_insert_program(row)
+            if table < 5:
+                self.page_click_next_day(table + 2)
+            if table == 5:
+                self.page_click_next_day(0)
+        sleep(1)
+        self.page_click_submit()
+
+
 
     # 创建周播单
     def page_program_week_insert(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):

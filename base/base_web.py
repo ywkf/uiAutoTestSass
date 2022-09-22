@@ -123,7 +123,7 @@ class BaseWeb(Base):
         log.info("正在调用web专属选择属性封装方法")
         loc = page.find_attr_by_num(row, page.attr_num.get(attr_name))
         value = self.base_get_input_value(loc)
-        if value != attr and attr is not None:
+        if (value != attr) and (len(attr.strip()) != 0):
             self.base_click(loc)
             self.base_web_selector(attr)
 
@@ -139,10 +139,11 @@ class BaseWeb(Base):
             self.base_click(loc_or)
 
     # 周选择
-    def base_web_select_week_num(self, week):
-        loc = (page.director_week_num[0], page.director_week_num[1].format(page.week_num.get(week)))
+    def base_web_select_week_num(self, week_num):
+        loc = (page.director_week_num[0], page.director_week_num[1].format(week_num))
         self.base_click(loc)
         sleep(0.5)
+
 
 
 

@@ -1,4 +1,4 @@
-login001:
+director001:
   row: 1
   duration: "00:15:00:00"
   program_name: "法制剧场1"
@@ -6,7 +6,7 @@ login001:
   column: "法制剧场"
   prebroadcast_type: "普通"
   self_type: "自办"
-login002:
+director002:
   row: 2
   duration: "00:15:00:00"
   program_name: "法制剧场2"
@@ -14,7 +14,7 @@ login002:
   column: "法制剧场"
   prebroadcast_type: "普通"
   self_type: "自办"
-login003:
+director003:
   row: 3
   duration: "00:15:00:00"
   program_name: ""
@@ -22,7 +22,7 @@ login003:
   column: ""
   prebroadcast_type: "普通"
   self_type: "自办"
-login004:
+director004:
   row: 4
   duration: "00:15:00:00"
   program_name: "法制剧场4"
@@ -30,7 +30,7 @@ login004:
   column: "法制剧场"
   prebroadcast_type: "普通"
   self_type: "自办"
-login005:
+director005:
   row: 5
   duration: "00:15:00:00"
   program_name: "法制剧场5"

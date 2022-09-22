@@ -25,17 +25,20 @@ class TestDirector:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    @pytest.mark.parametrize("channel,date,playtime,expect", [("法治频道", {"year": "2020", "month": "八月", "day": "6"}, "12:11:10:09", "法治频道2020-08-03 - 2020-08-09周播单")])
-    def test01_director(self, channel, date, playtime, expect):
-        self.director.page_program_week_info(channel, date, playtime)
+    @pytest.mark.parametrize("channel,date,expect", read_yaml("director_info.yaml"))
+    def test01_director(self, channel, date, expect):
+        self.director.page_program_week_info(channel, date)
         print(self.director.page_get_week_name())
         print(self.director.base_get_text(page.date_program))
         assert expect == self.director.page_get_week_name()
 
     # 测试业务方法
-    @pytest.mark.parametrize("row,duration,program_name,program_type,column,prebroadcast_type,self_type", read_yaml("director.yaml"))
-    def test02_director(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):
-        self.director.page_program_week_insert(row, duration, program_name, program_type, column, prebroadcast_type, self_type)
-        print()
-        self.director.page_insert_program(row)
+    # @pytest.mark.parametrize("row,duration,program_name,program_type,column,prebroadcast_type,self_type", read_yaml("director.yaml"))
+    # def test02_director(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):
+    #     self.director.page_program_week_insert(row, duration, program_name, program_type, column, prebroadcast_type, self_type)
+    #     print()
+    #     self.director.page_insert_program(row)
 
+    # 测试业务方法
+    def test02_director(self, filename="2022.8.1--2022.8.7.xlsx"):
+        self.director.page_program_week_create_form(filename)
