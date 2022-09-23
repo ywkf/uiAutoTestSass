@@ -151,6 +151,10 @@ class GetProgram:
 
         return info_list
 
+    # 获取本周日期
+    def get_week_date(self):
+        pass
+
 
 if __name__ == '__main__':
     get_prog = GetProgram("2022.8.1--2022.8.7.xlsx")

@@ -28,8 +28,10 @@ class TestDirector:
     @pytest.mark.parametrize("channel,date,expect", read_yaml("director_info.yaml"))
     def test01_director(self, channel, date, expect):
         self.director.page_program_week_info(channel, date)
-        print(self.director.page_get_week_name())
-        print(self.director.base_get_text(page.date_program))
+        page.director_week_program = self.director.page_get_week_name()
+        print(page.director_week_program)
+        date_s = self.director.base_get_text(page.date_program)
+        print(date_s)
         assert expect == self.director.page_get_week_name()
 
     # 测试业务方法
@@ -42,3 +44,5 @@ class TestDirector:
     # 测试业务方法
     def test02_director(self, filename="2022.8.1--2022.8.7.xlsx"):
         self.director.page_program_week_create_form(filename)
+
+

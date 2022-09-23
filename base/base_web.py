@@ -1,4 +1,6 @@
 import operator
+import re
+import datetime
 
 from selenium.webdriver.common.by import By
 
@@ -32,6 +34,28 @@ class BaseWeb(Base):
         # 3. 点击包含显示文本的元素
         loc = By.XPATH, "//*[text()='{}']".format(click_text)
         self.base_click(loc)
+
+    # 根据显示文本点击指定元素
+    def base_web_click_ele(self, loc, click_text):
+        log.info("正在调用web专属点击封装方法2")
+        # 1. 点击复选框
+        self.base_click(loc)
+        # 2. 暂停
+        sleep(0.5)
+        # 3. 点击包含显示文本的元素
+        loc = By.XPATH, "//*[text()='{}']".format(click_text)
+        self.base_click(loc)
+
+    # 根据显示文本查找指定元素是否存在
+    def base_web_find_ele(self, loc, click_text):
+        log.info("正在调用web专属查找封装方法")
+        # 1. 点击复选框
+        self.base_click(loc)
+        # 2. 暂停
+        sleep(0.5)
+        # 3. 返回包含显示文本的元素是否存在
+        loc = By.XPATH, "//*[text()='{}']".format(click_text)
+        return self.base_ele_is_exist(loc, timeout=1, poll=0.1)
 
     # 选择年份 >
     def __select_year(self, loc_Y, loc_m, loc_d):
@@ -114,8 +138,8 @@ class BaseWeb(Base):
             self.base_find_element(loc, timeout=30, poll=0.5).send_keys(time)
 
     # 定位属性
-    def base_web_find_by_num(self, row, col):
-        loc = "//tr[{}]//*[@class='el-table_1_column_{}   el-table__cell']//input".format(row, col)
+    def base_web_find_by_num(self, row, table, col):
+        loc = "//tr[{}]//*[@class='el-table_{}_column_{}   el-table__cell']//input".format(row, table, col)
         return self.base_find_element(loc, timeout=30, poll=0.5)
 
     # 根据行和属性名称选择对应属性
@@ -144,6 +168,22 @@ class BaseWeb(Base):
         self.base_click(loc)
         sleep(0.5)
 
+    # 获取当周日期列表
+    def base_web_week_date(self, date):
+        date_s = re.search(r"(?<=（)(.+?)(?=）)", date).group()
+        d1 = date_s.split('-')
+        d2 = []
+        date_list = []
+        for i in d1:
+            d2.append(int(i))
+        d3 = datetime.date(*d2)
+        for j in range(7):
+            d4 = d3 + datetime.timedelta(j)
+            date_list.append(str(d4))
+        return date_list
 
-
-
+    # 获取table属性
+    def base_web_get_table_attr_loc(self, attr_text):
+        loc = By.XPATH, "//*[text()='{}']/..".format(attr_text)
+        class_v = self.base_get_ele_attribute(loc, "class")
+        print(class_v)

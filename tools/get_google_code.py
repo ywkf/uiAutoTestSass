@@ -1,3 +1,4 @@
+import datetime
 import hmac, base64, struct, hashlib, time
 import operator
 import sys
@@ -43,3 +44,7 @@ if __name__ == '__main__':
     print(code)
     secret = "zuwhrtmfuo5rrmfe6jw2yb7w3sf3jc3g"
     print(secret.upper())
+
+
+
+

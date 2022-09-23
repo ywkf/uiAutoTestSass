@@ -2,14 +2,14 @@ from selenium.webdriver.common.by import By
 
 
 def find_attr_by_num(row, col):
-    loc = By.XPATH, director_program_input[1].format(row, col)
+    loc = By.XPATH, director_program_input[1].format(row, 1, col)
     return loc
 
 
 def find_btn_by_num(row, btn_num):
-    loc = By.XPATH, director_program_button[1].format(row, attr_num.get("button"), btn_num)
+    loc = By.XPATH, director_program_button[1].format(row, 1, attr_num.get("button"), btn_num)
     if btn_num == 6:
-        loc = By.XPATH, director_program_delete_btn[1].format(row, attr_num.get("button"))
+        loc = By.XPATH, director_program_delete_btn[1].format(row, 1, attr_num.get("button"))
     return loc
 
 
@@ -60,6 +60,7 @@ login_tenant = By.XPATH, "//main//*[@style='color: rgb(255, 255, 255);']"
 # 退出系统
 login_logout = By.XPATH, "//*[text()='退出系统']"
 
+"""以下为节目编单页面元素配置信息"""
 # 日期选择框
 date_select = By.CSS_SELECTOR, "[placeholder='选择日期']"
 # 当前年份选择
@@ -82,17 +83,21 @@ date_program = By.XPATH, "//*[@class='time']//span[1]"
 # 节目编单
 director_arrange = By.XPATH, "//*[text()='节目编单']/.."
 # 创建周播单
-director_create_week = By.XPATH, "//li//*[text()='创建周播单']"
+director_create_week = By.XPATH, "//li//*[text()='创建周播单']/.."
+# 周播单所属频道
+director_belong_channel = By.XPATH, "//*[@for='channelId']/following-sibling::div[1]//input/.."
 # 周播单名称
 director_week_name = By.XPATH, "//*[text()='周播单名称']/..//input"
+
 # 开播时间
 director_playtime = By.XPATH, "//*[@class='el-table_1_column_3   el-table__cell']//input"
 # 时长
 director_duration = By.XPATH, "//*[@class='el-table_1_column_4   el-table__cell']//input"
 # 节目名称
 director_program_name = By.XPATH, "//tr[{}]//*[@class='el-table_1_column_5   el-table__cell']//input"
+
 # 节目定位
-director_program_row = By.XPATH, "//tr[{}]//*[@class='el-table_1_column_{}   el-table__cell']"
+director_program_row = By.XPATH, "//tr[{}]//*[@class='el-table_{}_column_{}   el-table__cell']"
 # 节目属性输入框
 director_program_input = By.XPATH, director_program_row[1] + "//input"
 # 节目操作按钮
@@ -107,7 +112,8 @@ attr_num = {
                 "column": 7,
                 "prebroadcast_type": 8,
                 "self_type": 9,
-                "button": 10
+                "button": 10,
+                "signal": 7
            }
 # 按钮编号
 button_num = {
@@ -144,5 +150,23 @@ director_new_btn = By.XPATH, "//*[normalize-space(text())='新建']/.."
 director_submit_btn = By.XPATH, "//*[normalize-space(text())='提交']/.."
 # 周播单
 director_week_program = ""
+
 # 创建日播单
 director_create_day = By.XPATH, "//li//*[text()='创建日播单']"
+# 所属周播单
+director_belong_week = By.XPATH, "//*[@for='weekId']/following-sibling::div[1]//input/.."
+# 播出日期
+director_playdate = By.XPATH, "//*[@for='date']/following-sibling::div[1]//input/.."
+# 播出日期列表
+director_playdate_list = []
+# 周播单管理
+director_week_manage = By.XPATH, "//li//*[text()='周播单管理']/.."
+# 周播单名称搜索框
+director_week_search_name = By.CSS_SELECTOR, "[placeholder='周播单名称']"
+# 查询按钮
+director_week_search_btn = By.XPATH, "//*[text()='查询']/.."
+# 首条节目单名称
+director_week_name_first = By.CSS_SELECTOR, "[class='cell el-tooltip']"
+# 首条节目单审核状态
+director_week_state_first = By.XPATH, "//div//span[contains(text(),'审核')]"
+
