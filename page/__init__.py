@@ -61,6 +61,11 @@ login_tenant = By.XPATH, "//main//*[@style='color: rgb(255, 255, 255);']"
 login_logout = By.XPATH, "//*[text()='退出系统']"
 
 """以下为节目编单页面元素配置信息"""
+# 周播单
+director_week_program = ""
+# 日播单
+director_day_program = ""
+
 # 日期选择框
 date_select = By.CSS_SELECTOR, "[placeholder='选择日期']"
 # 当前年份选择
@@ -148,8 +153,6 @@ week_num = {
 director_new_btn = By.XPATH, "//*[normalize-space(text())='新建']/.."
 # 提交按钮
 director_submit_btn = By.XPATH, "//*[normalize-space(text())='提交']/.."
-# 周播单
-director_week_program = ""
 
 # 创建日播单
 director_create_day = By.XPATH, "//li//*[text()='创建日播单']"
@@ -168,5 +171,5 @@ director_week_search_btn = By.XPATH, "//*[text()='查询']/.."
 # 首条节目单名称
 director_week_name_first = By.CSS_SELECTOR, "[class='cell el-tooltip']"
 # 首条节目单审核状态
-director_week_state_first = By.XPATH, "//div//span[contains(text(),'审核')]"
+director_week_state_first = By.XPATH, "//div/span[contains(text(),'审核')]"
 

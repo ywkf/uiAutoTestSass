@@ -24,25 +24,48 @@ class TestDirector:
     def teardown_class(self):
         GetDriver.quit_web_driver()
 
+    # # 测试业务方法
+    # @pytest.mark.parametrize("channel,date,expect", read_yaml("director.yaml"))
+    # def test01_director(self, channel, date, expect):
+    #     self.director.page_program_week_info(channel, date)
+    #     page.director_week_program = self.director.page_get_week_name()
+    #     print(page.director_week_program)
+    #     date_s = self.director.base_get_text(page.date_program)
+    #     print(date_s)
+    #     assert expect == self.director.page_get_week_name()
+    #
+    # # 测试业务方法
+    # def test02_director(self, filename="2022.8.1--2022.8.7.xlsx"):
+    #     self.director.page_program_week_create_form(filename)
+    #
+    # # 测试业务方法
+    # def test03_director(self, week_name="法治频道2020-08-03 - 2020-08-09周播单", expect="法治频道2020-08-03 - 2020-08-09周播单"):
+    #     self.director.page_week_program_manage_search(week_name)
+    #     assert self.director.page_search_result_is_exist() is True
+    #     assert self.director.page_get_first_week_name() == expect
+    #     assert self.director.page_get_first_week_state() == "审核失败"
+
     # 测试业务方法
-    @pytest.mark.parametrize("channel,date,expect", read_yaml("director_info.yaml"))
-    def test01_director(self, channel, date, expect):
-        self.director.page_program_week_info(channel, date)
+    @pytest.mark.parametrize("filename,expect", read_yaml("director.yaml"))
+    def test01_director(self, filename, expect):
+        # 输入节目单基本信息
+        self.director.page_program_week_info(filename)
         page.director_week_program = self.director.page_get_week_name()
         print(page.director_week_program)
         date_s = self.director.base_get_text(page.date_program)
         print(date_s)
+        # 验证节目单名称
         assert expect == self.director.page_get_week_name()
-
-    # 测试业务方法
-    # @pytest.mark.parametrize("row,duration,program_name,program_type,column,prebroadcast_type,self_type", read_yaml("director.yaml"))
-    # def test02_director(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):
-    #     self.director.page_program_week_insert(row, duration, program_name, program_type, column, prebroadcast_type, self_type)
-    #     print()
-    #     self.director.page_insert_program(row)
-
-    # 测试业务方法
-    def test02_director(self, filename="2022.8.1--2022.8.7.xlsx"):
+        # 创建节目单并提交
         self.director.page_program_week_create_form(filename)
+        # 周播单管理查找验证
+        self.director.page_week_program_manage_search(page.director_week_program)
+        assert self.director.page_search_result_is_exist() is True
+        assert self.director.page_get_first_week_name() == expect
+        assert self.director.page_get_first_week_state() == "审核通过"
+
+
+
+
 
 

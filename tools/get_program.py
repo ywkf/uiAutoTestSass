@@ -44,7 +44,7 @@ class GetProgram:
         time2 = datetime.time(*time1[-3:-1])
         return time2
 
-    def get_program(self, num):
+    def program_decons(self, num):
 
         self.__table = self.excel.sheet_by_index(num)
 
@@ -52,11 +52,11 @@ class GetProgram:
         # excel1 = xlrd.open_workbook(self.filepath)
         # table = self.excel.sheet_by_index(num)
 
-        print('get_prog -> ', self.__table.row_values(3))
+        # print('get_prog -> ', self.__table.row_values(3))
 
         dated0 = self.__table.row_values(1)
         dated = self.__date_t(dated0).strip()
-        print('get_prog date -> ', dated)
+        # print('get_prog date -> ', dated)
         dated1 = dated.split()[1].split('月')
         y = dated1[0].split('年')[0].strip()
         m = dated1[0].split('年')[1]
@@ -72,6 +72,8 @@ class GetProgram:
         list1 = []
         list2 = []
         list_week = []
+        list_signal = []
+        list_decons = []
         rows = self.__table.nrows
         nums = 1
         for i in range(rows):
@@ -116,14 +118,30 @@ class GetProgram:
                     if w == '日' and i == 35:
                         copy_name = '000000法治黄金剧场-3（周日）'
 
+                mode = col[1].strip()
+                signal = col[5].strip()
+
                 list1.append({'tag': tag, 'time': time2, 'copy_name': copy_name, 'month': M, 'day': D, 'date': date})
                 list2.append((tag, time, copy_name, M, D, date))
                 list_week.append({"row": num1, "duration": str(time2), "program_name": tag_name, "column": "河南法治报道"})
+                list_signal.append({"row": num1, "play_mode": mode, "signal": signal, "date": date})
                 nums += 1
 
-        print('get_prog nums -> ', nums)
-        return list_week
+        list_decons.append(list_week)
+        list_decons.append(list_signal)
 
+        # print('list_decons nums -> ', nums)
+        return list_decons
+
+    # 获取节目单
+    def get_program(self, num):
+        return self.program_decons(num)[0]
+
+    # 获取信号源
+    def get_signal(self, num):
+        return self.program_decons(num)[1]
+
+    # 获取基本信息
     def get_info(self, num):
 
         self.__table = self.excel.sheet_by_index(num)
@@ -131,7 +149,7 @@ class GetProgram:
         # 日期
         date0 = self.__table.row_values(1)
         date1 = self.__date_t(date0).strip()
-        datel = re.findall("\d+", date1)
+        datel = re.findall("\\d+", date1)
         date_dict = {
             "year": datel[0],
             "month": month_dict.get(datel[1]) + '月',
@@ -148,15 +166,13 @@ class GetProgram:
         playtime = str(self.__time_format(time0))
 
         info_list = [(channel, date_dict, playtime)]
+        info_dict = {"channel": channel, "date": date_dict, "playtime": playtime}
 
-        return info_list
-
-    # 获取本周日期
-    def get_week_date(self):
-        pass
+        return info_dict
 
 
 if __name__ == '__main__':
-    get_prog = GetProgram("2022.8.1--2022.8.7.xlsx")
+    get_prog = GetProgram("2028.5.22--2028.5.28.xlsx")
     print(get_prog.get_program(6))
     print(get_prog.get_info(6))
+    print(get_prog.get_signal(6))

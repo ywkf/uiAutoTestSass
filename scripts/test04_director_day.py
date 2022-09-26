@@ -35,7 +35,7 @@ class TestDirectorDay:
             "play_mode": "定时",
             "signal": "140ST#1"
         }
-        self.director.page_program_day_create_form1(data)
+        self.director.page_program_day_create_form2("2028.5.22--2028.5.28.xlsx")
 
 
 

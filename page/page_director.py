@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+
 import page
 from base.base_web import BaseWeb
 from time import sleep
@@ -125,7 +127,7 @@ class PageDirector(BaseWeb):
 
     # 搜索框输入周播单名称
     def page_search_input_week_name(self, week_name):
-        self.base_input(page.director_week_search_name, week_name)
+        self.base_clipboard(page.director_week_search_name, week_name)
 
     # 点击查询按钮
     def page_click_search_btn(self):
@@ -152,12 +154,13 @@ class PageDirector(BaseWeb):
         pass
 
     # 周播单基本信息
-    def page_program_week_info(self, channel, date):
+    def page_program_week_info(self, filename):
         # date = {"year": "2020", "month": "八月", "day": "6"}
+        info_dict = GetProgram(filename).get_info(0)
         self.page_click_arrange()
         self.page_click_create_week()
-        self.page_select_channel(channel)
-        self.page_select_date(date)
+        self.page_select_channel(info_dict.get("channel"))
+        self.page_select_date(info_dict.get("date"))
         sleep(1)
 
     # 周播单添加节目(频道导播)
@@ -187,9 +190,7 @@ class PageDirector(BaseWeb):
         sleep(1)
         # self.page_click_submit()
 
-
-
-    # 创建周播单
+    # 创建节目单
     def page_program_week_insert(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):
         # self.page_input_playtime(1, data.get("playtime"))
         self.page_input_duration(row, duration)
@@ -206,12 +207,19 @@ class PageDirector(BaseWeb):
         self.page_program_week_info(data)
         self.page_program_week_info(data)
 
-    # 周播单管理
-    def page_week_manage(self, week_name):
-        self.page_click_arrange()
+    # 周播单管理查找方法
+    def page_week_program_manage_search(self, week_name):
+        # self.page_click_arrange()
         self.page_click_week_manage()
+        sleep(1)
         self.page_search_input_week_name(week_name)
+        sleep(0.5)
         self.page_click_search_btn()
+        sleep(2)
+        exist = self.page_search_result_is_exist()
+        name = self.page_get_first_week_name()
+        state = self.page_get_first_week_state()
+        print("exist: ", exist, "name: ", name, "state: ", state)
 
     # 日播单基本信息
     def page_program_day_info(self, channel, week_program, playdate):
@@ -220,8 +228,8 @@ class PageDirector(BaseWeb):
         sleep(5)
         self.page_select_channel(channel)
         self.page_select_week(week_program)
-        self.page_select_playdate(playdate)
-        self.base_web_get_table_attr_loc("序号")
+        # self.page_select_playdate(playdate)
+        # self.base_web_get_table_attr_loc("序号")
 
     # 日播单编辑节目
     def page_program_day_create_form(self, data):
@@ -233,15 +241,41 @@ class PageDirector(BaseWeb):
     # 创建日播单
     def page_program_day_create_form1(self, data):
         days = page.director_playdate_list
-        days = ['2028-05-22', '2028-05-24', '2028-05-25', '2028-05-26', '2028-05-28']
+        days = ['2028-05-22', '2028-05-23', '2028-05-24', '2028-05-25', '2028-05-26', '2028-05-27', '2028-05-28']
         for day in days:
-            # d = self.base_web_find_ele(page.director_playdate, day)
-            # if not d:
-            #     continue
-            self.page_select_playdate(day)
+            self.base_click(page.director_playdate)
+            sleep(0.5)
+            loc = By.XPATH, "//*[text()='{}']".format(day)
+            if not self.base_ele_is_exist(loc, timeout=1, poll=0.1):
+                self.base_click(page.director_playdate)
+                continue
+            self.base_click(loc)
+            # self.page_select_playdate(day)
             sleep(1)
             self.page_program_day_create_form(data)
             # self.page_click_submit()
+
+    # 创建日播单
+    def page_program_day_create_form2(self, filename):
+        days = page.director_playdate_list
+        days = ['2028-05-22', '2028-05-23', '2028-05-24', '2028-05-25', '2028-05-26', '2028-05-27', '2028-05-28']
+        for table in range(7):
+            # signal_list = GetProgram(filename).get_signal(table)
+            signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
+                           {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
+                           {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
+            self.base_click(page.director_playdate)
+            sleep(0.5)
+            loc = By.XPATH, "//*[text()='{}']".format(signal_list[0].get("date"))
+            if not self.base_ele_is_exist(loc, timeout=1, poll=0.1):
+                self.base_click(page.director_playdate)
+                continue
+            self.base_click(loc)
+            for data in signal_list:
+                # self.page_select_playdate(day)
+                sleep(1)
+                self.page_program_day_create_form(data)
+                # self.page_click_submit()
 
 
 

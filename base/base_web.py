@@ -147,7 +147,7 @@ class BaseWeb(Base):
         log.info("正在调用web专属选择属性封装方法")
         loc = page.find_attr_by_num(row, page.attr_num.get(attr_name))
         value = self.base_get_input_value(loc)
-        if (value != attr) and (len(attr.strip()) != 0):
+        if (attr is not None) and (value != attr) and (len(attr.strip()) != 0):
             self.base_click(loc)
             self.base_web_selector(attr)
 

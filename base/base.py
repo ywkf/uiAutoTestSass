@@ -1,7 +1,9 @@
 import time
 
 import allure
+import pyperclip
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
 from tools.get_log import GetLog
@@ -63,7 +65,7 @@ class Base:
         :return: 输入的文本
         """
         value = self.base_find_element(loc, timeout, poll).get_attribute('value')
-        log.info("正在对：{} 元素获取输入文本操作！，获取的文本值：{}".format(loc, value))
+        log.info("正在对：{} 元素获取输入文本操作！，输入的文本值：{}".format(loc, value))
         return value
 
     # 获取文本
@@ -155,6 +157,23 @@ class Base:
         log.info("正在对：{} 元素执行双击操作！".format(loc))
         el = self.base_find_element(loc, timeout, poll)
         self.action.double_click(el).perform()
+
+    # 剪贴板操作
+    def base_clipboard(self, loc, value, timeout=30, poll=0.5):
+        """
+        :param loc: 元素定位信息
+        :param value: 输入的值
+        :param timeout: 超时时间
+        :param poll: 查找频率
+        :return:
+        """
+        log.info("正在将：{} 文本传入到剪贴板！".format(value))
+        pyperclip.copy(value)
+        el = self.base_find_element(loc, timeout, poll)
+        log.info("正在对：{} 元素执行清空操作！".format(loc))
+        el.clear()
+        log.info("正在对：{} 元素执行从剪贴板粘贴：{} 操作！".format(loc, value))
+        el.send_keys(Keys.CONTROL, "v")
 
     # 截图
     def base_screenshot(self):

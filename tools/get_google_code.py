@@ -4,6 +4,8 @@ import operator
 import sys
 import re
 
+import pyperclip
+
 import page
 
 
@@ -28,8 +30,12 @@ class GetGoogleCode:
         else:
             o = ord(googleCode[19]) & 15
         googleCode = str((struct.unpack(">I", googleCode[o:o + 4])[0] & 0x7fffffff) % 1000000)
-        if len(googleCode) == 5:  # 如果验证码的第一位是0，则不会显示。此处判断若是5位码，则在第一位补上0
-            googleCode = '0' + googleCode
+
+        # if len(googleCode) == 5:  # 如果验证码的第一位是0，则不会显示。此处判断若是5位码，则在第一位补上0
+        #     googleCode = '0' + googleCode
+
+        googleCode = googleCode.zfill(6)
+
         return googleCode
 
     # 获取 Google Code
@@ -44,6 +50,10 @@ if __name__ == '__main__':
     print(code)
     secret = "zuwhrtmfuo5rrmfe6jw2yb7w3sf3jc3g"
     print(secret.upper())
+
+
+
+
 
 
 
