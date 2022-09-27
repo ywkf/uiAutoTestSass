@@ -32,6 +32,13 @@ director_pwd = 123456
 # 频道导播secret
 director_secret = "ZUWHRTMFUO5RRMFE6JW2YB7W3SF3JC3G"
 
+# 频道审核账号
+channel_check_phone = 19922222222
+# 频道审核密码
+channel_check_pwd = 123456
+# 频道审核secret
+channel_check_secret = "ZOAXCQ2DGICS45UX667T2SBGOOABB6YA"
+
 """以下为登录页面元素配置信息"""
 # 手机号
 login_phone = By.CSS_SELECTOR, "#usernameVal"
@@ -60,7 +67,7 @@ login_tenant = By.XPATH, "//main//*[@style='color: rgb(255, 255, 255);']"
 # 退出系统
 login_logout = By.XPATH, "//*[text()='退出系统']"
 
-"""以下为节目编单页面元素配置信息"""
+"""以下为节目编单（节目编排）页面元素配置信息"""
 # 周播单
 director_week_program = ""
 # 日播单
@@ -160,16 +167,43 @@ director_create_day = By.XPATH, "//li//*[text()='创建日播单']"
 director_belong_week = By.XPATH, "//*[@for='weekId']/following-sibling::div[1]//input/.."
 # 播出日期
 director_playdate = By.XPATH, "//*[@for='date']/following-sibling::div[1]//input/.."
+# 排单名称
+director_day_name = By.XPATH, "//*[text()='排单名称']/..//input"
 # 播出日期列表
 director_playdate_list = []
+
 # 周播单管理
 director_week_manage = By.XPATH, "//li//*[text()='周播单管理']/.."
 # 周播单名称搜索框
 director_week_search_name = By.CSS_SELECTOR, "[placeholder='周播单名称']"
 # 查询按钮
-director_week_search_btn = By.XPATH, "//*[text()='查询']/.."
+director_manage_search_btn = By.XPATH, "//*[text()='查询']/.."
 # 首条节目单名称
-director_week_name_first = By.CSS_SELECTOR, "[class='cell el-tooltip']"
+director_manage_name_first = By.CSS_SELECTOR, "[class='cell el-tooltip']"
 # 首条节目单审核状态
-director_week_state_first = By.XPATH, "//div/span[contains(text(),'审核')]"
+director_manage_state_first = By.XPATH, "//div/span[contains(text(),'审核')]"
+
+# 日播单管理
+director_day_manage = By.XPATH, "//li//*[text()='日播单管理']/.."
+# 日播单名称搜索框
+director_day_search_name = By.CSS_SELECTOR, "[placeholder='节目单名称']"
+
+
+"""以下为节目编单（审核）页面元素配置信息"""
+# 周播单审核
+check_week = By.XPATH, "//li//*[text()='周播单审核']/.."
+# 节目单名称搜索框
+check_search_name = By.CSS_SELECTOR, "[placeholder='节目单名称']"
+# 查询按钮
+check_search_btn = By.XPATH, "//*[text()='查询']/.."
+# 首条节目单名称
+check_first_program_name = By.XPATH, "//td//div[contains(text(),'播单')]"
+# 首条节目单查看详情审核按钮
+check_first_info_btn = By.XPATH, "//*[text()='点击详情进行审核']/.."
+# 审核通过按钮
+check_info_pass_btn = By.CSS_SELECTOR, "[class='el-button el-button--success el-button--small']"
+
+
+
+
 

@@ -112,6 +112,10 @@ class PageDirector(BaseWeb):
     def page_select_playdate(self, playdate):
         self.base_web_click_ele(page.director_playdate, playdate)
 
+    # 获取日播单名称
+    def page_get_day_name(self):
+        return self.base_get_input_value(page.director_day_name)
+
     # 选择播放方式
     def page_select_play_mode(self, row, play_mode):
         if row != 1:
@@ -125,25 +129,37 @@ class PageDirector(BaseWeb):
     def page_click_week_manage(self):
         self.base_click(page.director_week_manage)
 
+    # 选择频道
+    def page_select_channel_manage(self, channel):
+        self.base_web_click_element("所属频道", channel)
+
     # 搜索框输入周播单名称
     def page_search_input_week_name(self, week_name):
         self.base_clipboard(page.director_week_search_name, week_name)
 
     # 点击查询按钮
     def page_click_search_btn(self):
-        self.base_click(page.director_week_search_btn)
+        self.base_click(page.director_manage_search_btn)
 
     # 查看查询结果是否存在
     def page_search_result_is_exist(self):
-        return self.base_ele_is_exist(page.director_week_name_first)
+        return self.base_ele_is_exist(page.director_manage_name_first)
 
     # 获取首条节目单名称
     def page_get_first_week_name(self):
-        return self.base_get_text(page.director_week_name_first)
+        return self.base_get_text(page.director_manage_name_first)
 
     # 获取首条节目单审核状态
     def page_get_first_week_state(self):
-        return self.base_get_text(page.director_week_state_first)
+        return self.base_get_text(page.director_manage_state_first)
+
+    # 点击日播单管理
+    def page_click_day_manage(self):
+        self.base_click(page.director_day_manage)
+
+    # 搜索框输入日播单名称
+    def page_search_input_day_name(self, day_name):
+        self.base_clipboard(page.director_day_search_name, day_name)
 
     # 组合创建周播单方法
     def page_create_week_list(self):
@@ -157,7 +173,7 @@ class PageDirector(BaseWeb):
     def page_program_week_info(self, filename):
         # date = {"year": "2020", "month": "八月", "day": "6"}
         info_dict = GetProgram(filename).get_info(0)
-        self.page_click_arrange()
+        # self.page_click_arrange()
         self.page_click_create_week()
         self.page_select_channel(info_dict.get("channel"))
         self.page_select_date(info_dict.get("date"))
@@ -190,23 +206,6 @@ class PageDirector(BaseWeb):
         sleep(1)
         # self.page_click_submit()
 
-    # 创建节目单
-    def page_program_week_insert(self, row, duration, program_name, program_type, column, prebroadcast_type, self_type):
-        # self.page_input_playtime(1, data.get("playtime"))
-        self.page_input_duration(row, duration)
-        self.page_input_name(row, program_name)
-        self.page_select_type(row, program_type)
-        self.page_select_column(row, column)
-        self.page_select_prebroadcast_type(row, prebroadcast_type)
-        self.page_select_self_type(row, self_type)
-        # self.page_insert_program(row)
-        sleep(0.5)
-
-    # 组合业务方法
-    def page_program_arrange(self, data):
-        self.page_program_week_info(data)
-        self.page_program_week_info(data)
-
     # 周播单管理查找方法
     def page_week_program_manage_search(self, week_name):
         # self.page_click_arrange()
@@ -222,12 +221,13 @@ class PageDirector(BaseWeb):
         print("exist: ", exist, "name: ", name, "state: ", state)
 
     # 日播单基本信息
-    def page_program_day_info(self, channel, week_program, playdate):
-        self.page_click_arrange()
+    def page_program_day_info(self, filename):
+        info = GetProgram(filename).get_info(0)
+        # self.page_click_arrange()
         self.page_create_day()
         sleep(5)
-        self.page_select_channel(channel)
-        self.page_select_week(week_program)
+        self.page_select_channel(info.get("channel"))
+        self.page_select_week(info.get("week_program"))
         # self.page_select_playdate(playdate)
         # self.base_web_get_table_attr_loc("序号")
 
@@ -239,21 +239,35 @@ class PageDirector(BaseWeb):
         sleep(1)
 
     # 创建日播单
-    def page_program_day_create_form1(self, data):
-        days = page.director_playdate_list
-        days = ['2028-05-22', '2028-05-23', '2028-05-24', '2028-05-25', '2028-05-26', '2028-05-27', '2028-05-28']
-        for day in days:
-            self.base_click(page.director_playdate)
-            sleep(0.5)
-            loc = By.XPATH, "//*[text()='{}']".format(day)
-            if not self.base_ele_is_exist(loc, timeout=1, poll=0.1):
-                self.base_click(page.director_playdate)
-                continue
+    def page_program_day_create_form1(self, filename, date):
+        signal_list = GetProgram(filename).get_signal_by_date(date)
+        signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
+                       {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
+                       {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
+        self.base_click(page.director_playdate)
+        sleep(0.5)
+        loc = By.XPATH, "//*[text()='{}']".format(date)
+        if self.base_ele_is_exist(loc, timeout=1, poll=0.1):
             self.base_click(loc)
-            # self.page_select_playdate(day)
             sleep(1)
-            self.page_program_day_create_form(data)
+            for signal in signal_list:
+                self.page_program_day_create_form(signal)
             # self.page_click_submit()
+
+    # 日播单管理查找方法
+    def page_day_program_manage_search(self, day_name):
+        return self.base_web_program_search("日播单管理", "法治频道", "节目单名称", day_name)
+        # self.page_click_arrange()
+        # self.page_click_day_manage()
+        # sleep(2)
+        # self.page_search_input_day_name(day_name)
+        # sleep(0.5)
+        # self.page_click_search_btn()
+        # sleep(2)
+        # exist = self.page_search_result_is_exist()
+        # name = self.page_get_first_week_name()
+        # state = self.page_get_first_week_state()
+        # print("exist: ", exist, "name: ", name, "state: ", state)
 
     # 创建日播单
     def page_program_day_create_form2(self, filename):

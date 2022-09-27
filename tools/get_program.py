@@ -44,6 +44,27 @@ class GetProgram:
         time2 = datetime.time(*time1[-3:-1])
         return time2
 
+    def __get_date(self, num):
+
+        self.__table = self.excel.sheet_by_index(num)
+
+        dated0 = self.__table.row_values(1)
+        dated = self.__date_t(dated0).strip()
+        # print('get_prog date -> ', dated)
+        dated1 = dated.split()[1].split('月')
+        y = dated1[0].split('年')[0].strip()
+        m = dated1[0].split('年')[1]
+        d = dated1[1].split('日')[0]
+        w = dated[-1]
+        M = month_dict.get(m) + '月'
+        D = d
+        if len(m) == 1:
+            m = '0' + m
+        if len(d) == 1:
+            d = '0' + d
+        date = y + '-' + m + '-' + d
+        return date
+
     def program_decons(self, num):
 
         self.__table = self.excel.sheet_by_index(num)
@@ -68,6 +89,7 @@ class GetProgram:
             m = '0' + m
         if len(d) == 1:
             d = '0' + d
+        date = y + '-' + m + '-' + d
 
         list1 = []
         list2 = []
@@ -141,6 +163,23 @@ class GetProgram:
     def get_signal(self, num):
         return self.program_decons(num)[1]
 
+    # 获取当周日期
+    def get_week_date(self):
+        week_date = []
+        for i in range(7):
+            week_date.append(self.__get_date(i))
+        return week_date
+
+    # 根据日期获取节目单
+    def get_program_by_date(self, date):
+        num = [i for i, x in enumerate(self.get_week_date()) if x == date]
+        return self.get_program(num[0])
+
+    # 根据日期获取信号源
+    def get_signal_by_date(self, date):
+        num = [i for i, x in enumerate(self.get_week_date()) if x == date]
+        return self.get_signal(num[0])
+
     # 获取基本信息
     def get_info(self, num):
 
@@ -165,8 +204,11 @@ class GetProgram:
         time0 = self.__table.cell_value(3, 2)
         playtime = str(self.__time_format(time0))
 
+        # 周播单名称
+        week_program = channel + self.get_week_date()[0] + " - " + self.get_week_date()[-1] + "周播单"
+
         info_list = [(channel, date_dict, playtime)]
-        info_dict = {"channel": channel, "date": date_dict, "playtime": playtime}
+        info_dict = {"channel": channel, "date": date_dict, "playtime": playtime, "week_program": week_program}
 
         return info_dict
 
@@ -176,3 +218,4 @@ if __name__ == '__main__':
     print(get_prog.get_program(6))
     print(get_prog.get_info(6))
     print(get_prog.get_signal(6))
+    print(get_prog.get_signal_by_date('2028-05-22'))

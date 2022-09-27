@@ -48,7 +48,7 @@ if __name__ == '__main__':
     title = "otpauth://totp/HNTV%3A19977777777?secret=ne4weqjz7utzgkryur5ptgogu5oj2zig&issuer=HNTV"
     code = GetGoogleCode().get_google_code(title)
     print(code)
-    secret = "zuwhrtmfuo5rrmfe6jw2yb7w3sf3jc3g"
+    secret = "zoaxcq2dgics45ux667t2sbgooabb6ya"
     print(secret.upper())
 
 

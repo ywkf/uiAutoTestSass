@@ -46,16 +46,16 @@ class BaseWeb(Base):
         loc = By.XPATH, "//*[text()='{}']".format(click_text)
         self.base_click(loc)
 
-    # 根据显示文本查找指定元素是否存在
-    def base_web_find_ele(self, loc, click_text):
-        log.info("正在调用web专属查找封装方法")
-        # 1. 点击复选框
+    # 根据显示文本从剪贴板粘贴指定元素
+    def base_web_input_element(self, placeholder_text, input_text):
+        log.info("正在调用web专属剪贴板封装方法")
+        loc = By.CSS_SELECTOR, "[placeholder='{}']".format(placeholder_text)
+        self.base_clipboard(loc, input_text)
+
+    # 根据文本点击导航菜单
+    def base_web_click_mute(self, click_text):
+        loc = By.XPATH, "//li//*[text()='{}']/..".format(click_text)
         self.base_click(loc)
-        # 2. 暂停
-        sleep(0.5)
-        # 3. 返回包含显示文本的元素是否存在
-        loc = By.XPATH, "//*[text()='{}']".format(click_text)
-        return self.base_ele_is_exist(loc, timeout=1, poll=0.1)
 
     # 选择年份 >
     def __select_year(self, loc_Y, loc_m, loc_d):
@@ -187,3 +187,25 @@ class BaseWeb(Base):
         loc = By.XPATH, "//*[text()='{}']/..".format(attr_text)
         class_v = self.base_get_ele_attribute(loc, "class")
         print(class_v)
+
+    # 节目单管理查询
+    def base_web_program_search(self, mute_text, channel, placeholder_text, program_name):
+        # 点击节目单管理
+        self.base_web_click_mute(mute_text)
+        sleep(2)
+        # 选择频道
+        self.base_web_click_element("所属频道", channel)
+        # 搜索框输入节目单名称
+        self.base_web_input_element(placeholder_text, program_name)
+        sleep(0.5)
+        # 点击查询按钮
+        self.base_click(page.director_manage_search_btn)
+        sleep(2)
+        # 查看查询结果是否存在
+        exist = self.base_ele_is_exist(page.director_manage_name_first)
+        # 获取首条节目单名称
+        name = self.base_get_text(page.director_manage_name_first)
+        # 获取首条节目单审核状态
+        state = self.base_get_text(page.director_manage_state_first)
+        program_dict = {"exist": exist, "name": name, "state": state}
+        return program_dict
