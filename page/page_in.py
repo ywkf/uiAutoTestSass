@@ -1,4 +1,4 @@
-from page.page_channel_check import PageChannelCheck
+from page.page_audit import PageAudit
 from page.page_director import PageDirector
 from page.page_login import PageLogin
 
@@ -19,4 +19,4 @@ class PageIn:
 
     # 频道审核
     def get_page_channel_check(self):
-        return PageChannelCheck(self.driver)
+        return PageAudit(self.driver)

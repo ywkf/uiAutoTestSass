@@ -189,12 +189,13 @@ class BaseWeb(Base):
         print(class_v)
 
     # 节目单管理查询
-    def base_web_program_search(self, mute_text, channel, placeholder_text, program_name):
-        # 点击节目单管理
-        self.base_web_click_mute(mute_text)
-        sleep(2)
+    def base_web_program_search(self, channel, state, placeholder_text, program_name):
+        name = ""
+        state1 = ""
         # 选择频道
         self.base_web_click_element("所属频道", channel)
+        # 选择审核状态
+        self.base_web_click_element("审核状态", state)
         # 搜索框输入节目单名称
         self.base_web_input_element(placeholder_text, program_name)
         sleep(0.5)
@@ -203,9 +204,10 @@ class BaseWeb(Base):
         sleep(2)
         # 查看查询结果是否存在
         exist = self.base_ele_is_exist(page.director_manage_name_first)
-        # 获取首条节目单名称
-        name = self.base_get_text(page.director_manage_name_first)
-        # 获取首条节目单审核状态
-        state = self.base_get_text(page.director_manage_state_first)
-        program_dict = {"exist": exist, "name": name, "state": state}
+        if exist:
+            # 获取首条节目单名称
+            name = self.base_get_text(page.director_manage_name_first)
+            # 获取首条节目单审核状态
+            state1 = self.base_get_text(page.director_manage_state_first)
+        program_dict = {"exist": exist, "name": name, "state": state1}
         return program_dict

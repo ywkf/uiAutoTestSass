@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 
+from tools.read_yaml import read_yaml
+
 
 def find_attr_by_num(row, col):
     loc = By.XPATH, director_program_input[1].format(row, 1, col)
@@ -33,11 +35,11 @@ director_pwd = 123456
 director_secret = "ZUWHRTMFUO5RRMFE6JW2YB7W3SF3JC3G"
 
 # 频道审核账号
-channel_check_phone = 19922222222
+channel_audit_phone = 19922222222
 # 频道审核密码
-channel_check_pwd = 123456
+channel_audit_pwd = 123456
 # 频道审核secret
-channel_check_secret = "ZOAXCQ2DGICS45UX667T2SBGOOABB6YA"
+channel_audit_secret = "ZOAXCQ2DGICS45UX667T2SBGOOABB6YA"
 
 """以下为登录页面元素配置信息"""
 # 手机号
@@ -69,7 +71,7 @@ login_logout = By.XPATH, "//*[text()='退出系统']"
 
 """以下为节目编单（节目编排）页面元素配置信息"""
 # 周播单
-director_week_program = ""
+director_week_program = read_yaml("director.yaml")[0][1]
 # 日播单
 director_day_program = ""
 
@@ -191,17 +193,17 @@ director_day_search_name = By.CSS_SELECTOR, "[placeholder='节目单名称']"
 
 """以下为节目编单（审核）页面元素配置信息"""
 # 周播单审核
-check_week = By.XPATH, "//li//*[text()='周播单审核']/.."
+audit_week = By.XPATH, "//li//*[text()='周播单审核']/.."
 # 节目单名称搜索框
-check_search_name = By.CSS_SELECTOR, "[placeholder='节目单名称']"
+audit_search_name = By.CSS_SELECTOR, "[placeholder='节目单名称']"
 # 查询按钮
-check_search_btn = By.XPATH, "//*[text()='查询']/.."
+audit_search_btn = By.XPATH, "//*[text()='查询']/.."
 # 首条节目单名称
-check_first_program_name = By.XPATH, "//td//div[contains(text(),'播单')]"
+audit_first_program_name = By.XPATH, "//td//div[contains(text(),'播单')]"
 # 首条节目单查看详情审核按钮
-check_first_info_btn = By.XPATH, "//*[text()='点击详情进行审核']/.."
+audit_first_info_btn = By.XPATH, "//*[text()='点击详情进行审核']/.."
 # 审核通过按钮
-check_info_pass_btn = By.CSS_SELECTOR, "[class='el-button el-button--success el-button--small']"
+audit_info_pass_btn = By.CSS_SELECTOR, "[class='el-button el-button--success el-button--small']"
 
 
 

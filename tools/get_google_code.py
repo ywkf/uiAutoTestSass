@@ -23,20 +23,20 @@ class GetGoogleCode:
         input = int(time.time()) // 30
         key = base64.b32decode(secret)
         msg = struct.pack(">Q", input)
-        googleCode = hmac.new(key, msg, hashlib.sha1).digest()
+        google_code = hmac.new(key, msg, hashlib.sha1).digest()
         # 版本判断
         if (sys.version_info > (2, 7)):
-            o = googleCode[19] & 15
+            o = google_code[19] & 15
         else:
-            o = ord(googleCode[19]) & 15
-        googleCode = str((struct.unpack(">I", googleCode[o:o + 4])[0] & 0x7fffffff) % 1000000)
+            o = ord(google_code[19]) & 15
+        google_code = str((struct.unpack(">I", google_code[o:o + 4])[0] & 0x7fffffff) % 1000000)
 
-        # if len(googleCode) == 5:  # 如果验证码的第一位是0，则不会显示。此处判断若是5位码，则在第一位补上0
-        #     googleCode = '0' + googleCode
+        # if len(google_code) == 5:  # 如果验证码的第一位是0，则不会显示。此处判断若是5位码，则在第一位补上0
+        #     google_code = '0' + google_code
 
-        googleCode = googleCode.zfill(6)
+        google_code = google_code.zfill(6)
 
-        return googleCode
+        return google_code
 
     # 获取 Google Code
     def get_google_code(self, text):
@@ -50,6 +50,7 @@ if __name__ == '__main__':
     print(code)
     secret = "zoaxcq2dgics45ux667t2sbgooabb6ya"
     print(secret.upper())
+    
 
 
 

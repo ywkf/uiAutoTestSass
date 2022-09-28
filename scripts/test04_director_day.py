@@ -53,9 +53,7 @@ class TestDirectorDay:
         # 日播单管理查找验证
         program_dict = self.director.page_day_program_manage_search(filename, page.director_day_program)
         try:
-            assert program_dict.get("exist") is True
-            assert program_dict.get("name") == expect
-            assert program_dict.get("state") == state
+            assert self.director.page_assert_day_program(filename, expect)
         except Exception as e:
             log.error("断言出错，错误信息：{}".format(e))
             # 截图

@@ -4,8 +4,10 @@ import page
 from base.base_web import BaseWeb
 from time import sleep
 
+from tools.get_log import GetLog
 from tools.get_program import GetProgram
 
+log = GetLog.get_logger()
 
 class PageDirector(BaseWeb):
 
@@ -38,7 +40,7 @@ class PageDirector(BaseWeb):
 
     # 选择播放方式
     def page_select_play_type(self, row, play_type):
-        self.base_web_select_attr(row, "play_type", play_type)
+        self.base_web_select_attr(row, attr_name="play_type", attr=play_type)
 
     # 输入开播时间
     def page_input_playtime(self, row, time):
@@ -57,19 +59,19 @@ class PageDirector(BaseWeb):
 
     # 选择节目类型
     def page_select_type(self, row, program_type):
-        self.base_web_select_attr(row, "program_type", program_type)
+        self.base_web_select_attr(row, attr_name="program_type", attr=program_type)
 
     # 选择所属栏目
     def page_select_column(self, row, column):
-        self.base_web_select_attr(row, "column", column)
+        self.base_web_select_attr(row, attr_name="column", attr=column)
 
     # 选择备播类型
     def page_select_prebroadcast_type(self, row, prebroadcast_type):
-        self.base_web_select_attr(row, "prebroadcast_type", prebroadcast_type)
+        self.base_web_select_attr(row, attr_name="prebroadcast_type", attr=prebroadcast_type)
 
     # 选择自办类型
     def page_select_self_type(self, row, self_type):
-        self.base_web_select_attr(row, "self_type", self_type)
+        self.base_web_select_attr(row, attr_name="self_type", attr=self_type)
 
     # 在此节目下插入一条节目
     def page_insert_program(self, row):
@@ -119,11 +121,11 @@ class PageDirector(BaseWeb):
     # 选择播放方式
     def page_select_play_mode(self, row, play_mode):
         if row != 1:
-            self.base_web_select_attr(row, "play_mode", play_mode)
+            self.base_web_select_attr(row, attr_name="play_mode", attr=play_mode)
 
     # 选择信号源
     def page_select_signal(self, row, signal):
-        self.base_web_select_attr(row, "signal", signal)
+        self.base_web_select_attr(row, attr_name="signal", attr=signal)
 
     # 点击周播单管理
     def page_click_week_manage(self):
@@ -131,7 +133,7 @@ class PageDirector(BaseWeb):
 
     # 选择频道
     def page_select_channel_manage(self, channel):
-        self.base_web_click_element("所属频道", channel)
+        self.base_web_click_element(placeholder_text="所属频道", click_text=channel)
 
     # 搜索框输入周播单名称
     def page_search_input_week_name(self, week_name):
@@ -171,9 +173,8 @@ class PageDirector(BaseWeb):
 
     # 周播单基本信息
     def page_program_week_info(self, filename):
-        # date = {"year": "2020", "month": "八月", "day": "6"}
         info_dict = GetProgram(filename).get_info(0)
-        # self.page_click_arrange()
+        log.info("正在调用周播单基本信息填写方法，文件名：{} 频道：{} 周播单名称：{}".format(filename, info_dict.get("channel"), info_dict.get("week_program")))
         self.page_click_create_week()
         self.page_select_channel(info_dict.get("channel"))
         self.page_select_date(info_dict.get("date"))
@@ -189,6 +190,7 @@ class PageDirector(BaseWeb):
 
     # 创建周播单(频道导播)
     def page_program_week_create_form(self, filename):
+        log.info("正在调用创建周播单方法，文件名：{}".format(filename))
         for table in range(7):
             # prog_list = GetProgram(filename).get_program(table)
             prog_list = [{'row': '1', 'duration': '12:00:00', 'program_name': '好剧连连看-1', 'column': '河南法治报道'},
@@ -207,31 +209,22 @@ class PageDirector(BaseWeb):
         # self.page_click_submit()
 
     # 周播单管理查找方法
-    def page_week_program_manage_search(self, filename, week_name):
+    def page_week_program_manage_search(self, filename, state, week_name):
         channel = GetProgram(filename).get_info(0).get("channel")
-        return self.base_web_program_search("周播单管理", channel, "周播单名称", week_name)
-        # self.page_click_arrange()
-        # self.page_click_week_manage()
-        # sleep(1)
-        # self.page_search_input_week_name(week_name)
-        # sleep(0.5)
-        # self.page_click_search_btn()
-        # sleep(2)
-        # exist = self.page_search_result_is_exist()
-        # name = self.page_get_first_week_name()
-        # state = self.page_get_first_week_state()
-        # print("exist: ", exist, "name: ", name, "state: ", state)
+        log.info("正在调用周播单管理查找方法，频道：{} 查找周播单名称：{}".format(channel, week_name))
+        self.base_web_click_mute("周播单管理")
+        sleep(2)
+        return self.base_web_program_search(channel=channel, state=state, placeholder_text="周播单名称",
+                                            program_name=week_name)
 
     # 日播单基本信息
     def page_program_day_info(self, filename):
         info = GetProgram(filename).get_info(0)
-        # self.page_click_arrange()
+        log.info("正在调用日播单基本信息填写方法，文件名：{} 频道：{} 周播单名称：{}".format(filename, info.get("channel"), info.get("week_program")))
         self.page_create_day()
         sleep(5)
         self.page_select_channel(info.get("channel"))
         self.page_select_week(info.get("week_program"))
-        # self.page_select_playdate(playdate)
-        # self.base_web_get_table_attr_loc("序号")
 
     # 日播单编辑节目
     def page_program_day_create_form(self, data):
@@ -257,23 +250,17 @@ class PageDirector(BaseWeb):
             # self.page_click_submit()
 
     # 日播单管理查找方法
-    def page_day_program_manage_search(self, filename, day_name):
+    def page_day_program_manage_search(self, filename, state, day_name):
         channel = GetProgram(filename).get_info(0).get("channel")
-        return self.base_web_program_search("日播单管理", channel, "节目单名称", day_name)
-        # self.page_click_arrange()
-        # self.page_click_day_manage()
-        # sleep(2)
-        # self.page_search_input_day_name(day_name)
-        # sleep(0.5)
-        # self.page_click_search_btn()
-        # sleep(2)
-        # exist = self.page_search_result_is_exist()
-        # name = self.page_get_first_week_name()
-        # state = self.page_get_first_week_state()
-        # print("exist: ", exist, "name: ", name, "state: ", state)
+        log.info("正在调用日播单管理查找方法，频道：{} 查找日播单名称：{}".format(channel, day_name))
+        self.base_web_click_mute("日播单管理")
+        sleep(2)
+        return self.base_web_program_search(channel=channel, state=state, placeholder_text="节目单名称",
+                                            program_name=day_name)
 
     # 创建日播单
     def page_program_day_create_form2(self, filename):
+        log.info("正在调用创建日播单方法，文件名：{}".format(filename))
         days = page.director_playdate_list
         days = ['2028-05-22', '2028-05-23', '2028-05-24', '2028-05-25', '2028-05-26', '2028-05-27', '2028-05-28']
         for table in range(7):
@@ -293,6 +280,16 @@ class PageDirector(BaseWeb):
                 sleep(1)
                 self.page_program_day_create_form(data)
                 # self.page_click_submit()
+
+    # 断言业务方法（周播单）
+    def page_assert_week_program(self, filename, week_name):
+        program_dict = self.page_week_program_manage_search(filename=filename, state="审核通过", week_name=week_name)
+        return program_dict.get("exist")
+
+        # 断言业务方法（日播单）
+    def page_assert_day_program(self, filename, day_name):
+        program_dict = self.page_day_program_manage_search(filename=filename, state="审核中", day_name=day_name)
+        return program_dict.get("exist")
 
 
 
