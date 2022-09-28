@@ -3,8 +3,10 @@ import pytest
 import page
 from page.page_in import PageIn
 from tools.get_driver import GetDriver
+from tools.get_log import GetLog
 from tools.read_yaml import read_yaml
 
+log = GetLog.get_logger()
 
 class TestDirectorDay:
 
@@ -42,20 +44,25 @@ class TestDirectorDay:
     # 测试业务方法
     @pytest.mark.parametrize("filename,date,expect,state", read_yaml("director_day.yaml"))
     def test03_director_day(self, filename, date, expect, state):
-        # # 输入基本信息
-        # self.director.page_program_day_info(filename)
-        # # 创建日播单并提交
-        # self.director.page_program_day_create_form1(filename, date)
-        # page.director_day_program = self.director.page_get_day_name()
+        # 输入基本信息
+        self.director.page_program_day_info(filename)
+        # 创建日播单并提交
+        self.director.page_program_day_create_form1(filename, date)
+        page.director_day_program = self.director.page_get_day_name()
         # assert expect == self.director.page_get_day_name()
         # 日播单管理查找验证
-        program_dict = self.director.page_day_program_manage_search(page.director_day_program)
-        # assert self.director.page_search_result_is_exist() is True
-        # assert self.director.page_get_first_week_name() == expect
-        # assert self.director.page_get_first_week_state() == state
-        assert program_dict.get("exist") is True
-        assert program_dict.get("name") == expect
-        assert program_dict.get("state") == state
+        program_dict = self.director.page_day_program_manage_search(filename, page.director_day_program)
+        try:
+            assert program_dict.get("exist") is True
+            assert program_dict.get("name") == expect
+            assert program_dict.get("state") == state
+        except Exception as e:
+            log.error("断言出错，错误信息：{}".format(e))
+            # 截图
+            self.director.base_screenshot()
+            # 抛出异常
+            raise
+
 
 
 

@@ -207,18 +207,20 @@ class PageDirector(BaseWeb):
         # self.page_click_submit()
 
     # 周播单管理查找方法
-    def page_week_program_manage_search(self, week_name):
+    def page_week_program_manage_search(self, filename, week_name):
+        channel = GetProgram(filename).get_info(0).get("channel")
+        return self.base_web_program_search("周播单管理", channel, "周播单名称", week_name)
         # self.page_click_arrange()
-        self.page_click_week_manage()
-        sleep(1)
-        self.page_search_input_week_name(week_name)
-        sleep(0.5)
-        self.page_click_search_btn()
-        sleep(2)
-        exist = self.page_search_result_is_exist()
-        name = self.page_get_first_week_name()
-        state = self.page_get_first_week_state()
-        print("exist: ", exist, "name: ", name, "state: ", state)
+        # self.page_click_week_manage()
+        # sleep(1)
+        # self.page_search_input_week_name(week_name)
+        # sleep(0.5)
+        # self.page_click_search_btn()
+        # sleep(2)
+        # exist = self.page_search_result_is_exist()
+        # name = self.page_get_first_week_name()
+        # state = self.page_get_first_week_state()
+        # print("exist: ", exist, "name: ", name, "state: ", state)
 
     # 日播单基本信息
     def page_program_day_info(self, filename):
@@ -255,8 +257,9 @@ class PageDirector(BaseWeb):
             # self.page_click_submit()
 
     # 日播单管理查找方法
-    def page_day_program_manage_search(self, day_name):
-        return self.base_web_program_search("日播单管理", "法治频道", "节目单名称", day_name)
+    def page_day_program_manage_search(self, filename, day_name):
+        channel = GetProgram(filename).get_info(0).get("channel")
+        return self.base_web_program_search("日播单管理", channel, "节目单名称", day_name)
         # self.page_click_arrange()
         # self.page_click_day_manage()
         # sleep(2)

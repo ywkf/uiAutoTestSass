@@ -219,3 +219,4 @@ if __name__ == '__main__':
     print(get_prog.get_info(6))
     print(get_prog.get_signal(6))
     print(get_prog.get_signal_by_date('2028-05-22'))
+

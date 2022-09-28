@@ -3,7 +3,10 @@ import pytest
 import page
 from page.page_in import PageIn
 from tools.get_driver import GetDriver
+from tools.get_log import GetLog
 from tools.read_yaml import read_yaml
+
+log = GetLog.get_logger()
 
 
 class TestDirector:
@@ -57,14 +60,23 @@ class TestDirector:
         date_s = self.director.base_get_text(page.date_program)
         print(date_s)
         # 验证节目单名称
-        assert expect == self.director.page_get_week_name()
+        # assert expect == self.director.page_get_week_name()
         # 创建节目单并提交
         self.director.page_program_week_create_form(filename)
         # 周播单管理查找验证
-        self.director.page_week_program_manage_search(page.director_week_program)
-        assert self.director.page_search_result_is_exist() is True
-        assert self.director.page_get_first_week_name() == expect
-        assert self.director.page_get_first_week_state() == "审核通过"
+        self.director.page_week_program_manage_search(filename, page.director_week_program)
+        try:
+            assert self.director.page_search_result_is_exist() is True
+            assert self.director.page_get_first_week_name() == expect
+            assert self.director.page_get_first_week_state() == "审核通过"
+        except Exception as e:
+            log.error("断言出错，错误信息：{}".format(e))
+            # 截图
+            self.director.base_screenshot()
+            # 抛出异常
+            raise
+
+
 
 
 
