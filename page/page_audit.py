@@ -62,20 +62,23 @@ class PageAudit(BaseWeb):
         self.base_web_click_mute(click_text)
 
     # 周播单管理查询
-    def page_week_manage_search(self, filename, week_name):
-        channel = GetProgram(filename).get_info(0).get("channel")
-        return self.base_web_program_search(mute_text="周播单管理", channel=channel, placeholder_text="周播单名称",
-                                            program_name=week_name)
+    def page_week_manage_search(self, state, week_name):
+        channel = self.base_web_get_channel_by_program(week_name)
+        self.page_click_week_manage()
+        sleep(2)
+        return self.base_web_program_search(channel=channel, state=state, placeholder_text="周播单名称", program_name=week_name)
 
     # 点击日播单管理
     def page_click_day_manage(self):
         self.base_web_click_mute("日播单管理")
 
     # 日播单管理查询
-    def page_day_manage_search(self, filename, day_name):
-        channel = GetProgram(filename).get_info(0).get("channel")
-        return self.base_web_program_search(mute_text="日播单管理", channel=channel, placeholder_text="节目单名称",
-                                            program_name=day_name)
+    def page_day_manage_search(self, state, day_name):
+        channel = self.base_web_get_channel_by_program(day_name)
+        self.page_click_day_manage()
+        sleep(2)
+        print("audit day_name: ", day_name, type(day_name))
+        return self.base_web_program_search(channel=channel, state=state, placeholder_text="节目单名称", program_name=day_name)
 
     # 节目单审核查找方法
     def page_audit_search(self, channel, name):
@@ -85,38 +88,45 @@ class PageAudit(BaseWeb):
         self.page_click_search_btn()
         sleep(2)
         program_name = self.page_get_first_program_name()
+        return program_name
+
+    # 周播单审核组合业务方法
+    def page_week_audit(self, week_name):
+        channel = self.base_web_get_channel_by_program(week_name)
+        self.page_click_week_audit()
+        sleep(5)
+        self.page_audit_search(channel, week_name)
         self.page_click_info_btn()
         sleep(0.5)
         self.page_click_pass_btn()
         sleep(1)
-        return program_name
-
-    # 周播单审核组合业务方法
-    def page_week_audit(self, channel, name):
-        self.page_click_week_audit()
-        self.page_audit_search(channel, name)
-
-        self.page_click_arrange_menu()
-        sleep(0.5)
-        self.page_week_manage_search()
-        sleep(2)
 
     # 日播单审核组合业务方法
-    def page_day_audit(self, channel, name):
+    def page_day_audit(self, day_name):
+        channel = self.base_web_get_channel_by_program(day_name)
         self.page_click_day_audit()
-        self.page_audit_search(channel, name)
+        sleep(5)
+        self.page_audit_search(channel, day_name)
+        self.page_click_info_btn()
+        sleep(0.5)
+        self.page_click_pass_btn()
+        sleep(1)
 
+    # 断言业务方法（周播单）
+    def page_assert_week_audit(self, week_name):
         self.page_click_arrange_menu()
         sleep(0.5)
-        self.page_day_manage_search()
+        program_dict = self.page_week_manage_search(state="审核成功", week_name=week_name)
         sleep(2)
+        return program_dict.get("exist")
 
-    # 断言业务方法
-    def page_assert_audit(self):
+    # 断言业务方法（日播单）
+    def page_assert_day_audit(self, state, day_name):
         self.page_click_arrange_menu()
         sleep(0.5)
-        self.page_day_manage_search()
+        program_dict = self.page_day_manage_search(state=state, day_name=day_name)
         sleep(2)
+        return program_dict.get("exist")
 
 
 

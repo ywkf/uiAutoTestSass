@@ -16,7 +16,6 @@ def find_btn_by_num(row, btn_num):
 
 
 """项目配置地址"""
-
 # url
 url = "https://pre-admin.hndt.com/home"
 
@@ -40,6 +39,13 @@ channel_audit_phone = 19922222222
 channel_audit_pwd = 123456
 # 频道审核secret
 channel_audit_secret = "ZOAXCQ2DGICS45UX667T2SBGOOABB6YA"
+
+# 总编室审核账号
+chief_audit_phone = 19911111111
+# 总编室审核密码
+chief_audit_pwd = 123456
+# 总编室审核secret
+chief_audit_secret = "6CO73AYR4RNQUVAXCA427RGP24AV3SSC"
 
 """以下为登录页面元素配置信息"""
 # 手机号
@@ -74,6 +80,8 @@ login_logout = By.XPATH, "//*[text()='退出系统']"
 director_week_program = read_yaml("director.yaml")[0][1]
 # 日播单
 director_day_program = ""
+# 正在加载...
+loading = By.XPATH, "//*[text()='正在加载...']"
 
 # 日期选择框
 date_select = By.CSS_SELECTOR, "[placeholder='选择日期']"
@@ -183,7 +191,7 @@ director_manage_search_btn = By.XPATH, "//*[text()='查询']/.."
 # 首条节目单名称
 director_manage_name_first = By.CSS_SELECTOR, "[class='cell el-tooltip']"
 # 首条节目单审核状态
-director_manage_state_first = By.XPATH, "//div/span[contains(text(),'审核')]"
+director_manage_state_first = By.XPATH, "//*[@class='cell']/span[contains(text(),'审核')]"
 
 # 日播单管理
 director_day_manage = By.XPATH, "//li//*[text()='日播单管理']/.."

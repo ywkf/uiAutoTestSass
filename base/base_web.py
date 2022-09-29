@@ -46,9 +46,24 @@ class BaseWeb(Base):
         loc = By.XPATH, "//*[text()='{}']".format(click_text)
         self.base_click(loc)
 
+    # 根据显示文本点击指定元素
+    def base_web_select_ele(self, placeholder_text, click_text):
+        log.info("正在调用web专属复选框选择封装方法")
+        # 1. 点击复选框
+        loc = By.CSS_SELECTOR, "[placeholder='{}']".format(placeholder_text)
+        self.base_click(loc)
+        # 2. 暂停
+        sleep(0.5)
+        # 3. 点击包含显示文本的元素
+        loc1 = By.XPATH, "//li//*[text()='{}']".format(click_text)
+        self.base_click(loc1)
+
     # 根据显示文本从剪贴板粘贴指定元素
     def base_web_input_element(self, placeholder_text, input_text):
         log.info("正在调用web专属剪贴板封装方法")
+        if type(input_text) is tuple:
+            input_text = input_text[0]
+            print("web input_text", input_text)
         loc = By.CSS_SELECTOR, "[placeholder='{}']".format(placeholder_text)
         self.base_clipboard(loc, input_text)
 
@@ -188,14 +203,21 @@ class BaseWeb(Base):
         class_v = self.base_get_ele_attribute(loc, "class")
         print(class_v)
 
+    # 获取频道
+    def base_web_get_channel_by_program(self, program_name):
+        if type(program_name) is tuple:
+            program_name = program_name[0]
+            print("web tuple", program_name)
+        return re.search(r".*?频道", program_name).group()
+
     # 节目单管理查询
     def base_web_program_search(self, channel, state, placeholder_text, program_name):
         name = ""
         state1 = ""
         # 选择频道
-        self.base_web_click_element("所属频道", channel)
+        self.base_web_select_ele("所属频道", channel)
         # 选择审核状态
-        self.base_web_click_element("审核状态", state)
+        self.base_web_select_ele("审核状态", state)
         # 搜索框输入节目单名称
         self.base_web_input_element(placeholder_text, program_name)
         sleep(0.5)

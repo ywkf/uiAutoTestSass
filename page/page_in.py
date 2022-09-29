@@ -18,5 +18,5 @@ class PageIn:
         return PageDirector(self.driver)
 
     # 频道审核
-    def get_page_channel_check(self):
+    def get_page_audit(self):
         return PageAudit(self.driver)

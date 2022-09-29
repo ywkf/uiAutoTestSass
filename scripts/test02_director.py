@@ -29,8 +29,8 @@ class TestDirector:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    @pytest.mark.parametrize("filename,expect", read_yaml("director.yaml"))
-    def test01_director(self, filename, expect):
+    @pytest.mark.parametrize("filename,week_name", read_yaml("director.yaml"))
+    def test01_director(self, filename, week_name):
         # 输入节目单基本信息
         self.director.page_program_week_info(filename)
         page.director_week_program = self.director.page_get_week_name()
@@ -44,7 +44,7 @@ class TestDirector:
         # 周播单管理查找验证
         # self.director.page_week_program_manage_search(filename, page.director_week_program)
         try:
-            assert self.director.page_assert_week_program(filename, expect)
+            assert self.director.page_assert_week_program(week_name)
         except Exception as e:
             log.error("断言出错，错误信息：{}".format(e))
             # 截图
