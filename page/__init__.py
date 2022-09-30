@@ -198,6 +198,9 @@ director_day_manage = By.XPATH, "//li//*[text()='日播单管理']/.."
 # 日播单名称搜索框
 director_day_search_name = By.CSS_SELECTOR, "[placeholder='节目单名称']"
 
+# 新增节目按钮
+director_new_program = By.XPATH, "//*[text()='新增节目']/.."
+
 
 """以下为节目编单（审核）页面元素配置信息"""
 # 周播单审核

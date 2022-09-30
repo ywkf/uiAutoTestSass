@@ -207,6 +207,9 @@ class GetProgram:
         # 周播单名称
         week_program = channel + self.get_week_date()[0] + " - " + self.get_week_date()[-1] + "周播单"
 
+        # 日播单名称
+        self.get_week_date()
+
         info_list = [(channel, date_dict, playtime)]
         info_dict = {"channel": channel, "date": date_dict, "playtime": playtime, "week_program": week_program}
 
@@ -219,4 +222,5 @@ if __name__ == '__main__':
     print(get_prog.get_info(6))
     print(get_prog.get_signal(6))
     print(get_prog.get_signal_by_date('2027-08-02'))
+    print(get_prog.get_week_date())
 
