@@ -28,8 +28,8 @@ directorDay006:
   date: "2028-05-27"
   day_name: "法治频道2028-05-27日播单"
   state: "审核通过"
-#directorDay007:
-#  filename: "2028.5.22--2028.5.28.xlsx"
-#  date: "2028-05-28"
-#  day_name: "法治频道2028-05-28日播单"
-#  state: "审核中"
+directorDay007:
+  filename: "2028.5.22--2028.5.28.xlsx"
+  date: "2028-05-28"
+  day_name: "法治频道2028-05-28日播单"
+  state: "审核中"
