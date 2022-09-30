@@ -114,7 +114,7 @@ class PageAudit(BaseWeb):
 
     # 断言业务方法（周播单）
     def page_assert_week_audit(self, week_name):
-        self.page_click_arrange_menu()
+        # self.page_click_arrange_menu()
         sleep(0.5)
         program_dict = self.page_week_manage_search(state="审核成功", week_name=week_name)
         sleep(2)
@@ -122,7 +122,7 @@ class PageAudit(BaseWeb):
 
     # 断言业务方法（日播单）
     def page_assert_day_audit(self, state, day_name):
-        self.page_click_arrange_menu()
+        # self.page_click_arrange_menu()
         sleep(0.5)
         program_dict = self.page_day_manage_search(state=state, day_name=day_name)
         sleep(2)

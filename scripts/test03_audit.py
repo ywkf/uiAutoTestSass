@@ -23,6 +23,8 @@ class TestAudit:
         self.audit = PageIn(driver).get_page_audit()
         # 进入节目编单页面
         self.audit.page_click_arrange()
+        # 点击展开节目排单菜单
+        self.audit.page_click_arrange_menu()
 
     # 结束
     def teardown_class(self):

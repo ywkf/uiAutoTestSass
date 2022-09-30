@@ -23,6 +23,8 @@ class TestAuditChief:
         self.audit = PageIn(driver).get_page_audit()
         # 进入节目编单页面
         self.audit.page_click_arrange()
+        # 点击展开节目排单菜单
+        self.audit.page_click_arrange_menu()
 
     # 结束
     def teardown_class(self):
@@ -30,7 +32,7 @@ class TestAuditChief:
 
     # 测试业务方法
     def test01_audit_chief(self, week_name=page.director_week_name):
-        self.audit.page_week_audit(week_name)
+        # self.audit.page_week_audit(week_name)
         try:
             assert self.audit.page_assert_week_audit(week_name)
         except Exception as e:

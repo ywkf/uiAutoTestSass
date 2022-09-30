@@ -192,9 +192,9 @@ class PageDirector(BaseWeb):
     def page_program_week_create_form(self, filename):
         log.info("正在调用创建周播单方法，文件名：{}".format(filename))
         for table in range(7):
-            # prog_list = GetProgram(filename).get_program(table)
-            prog_list = [{'row': '1', 'duration': '12:00:00', 'program_name': '好剧连连看-1', 'column': '河南法治报道'},
-                         {'row': '2', 'duration': '12:00:00', 'program_name': '好剧连连看-2', 'column': '河南法治报道'}]
+            prog_list = GetProgram(filename).get_program(table)
+            # prog_list = [{'row': '1', 'duration': '12:00:00', 'program_name': '好剧连连看-1', 'column': '河南法治报道'},
+            #              {'row': '2', 'duration': '12:00:00', 'program_name': '好剧连连看-2', 'column': '河南法治报道'}]
             last = prog_list[-1].get("row")
             for prog in prog_list:
                 row = prog.get("row")
@@ -206,7 +206,8 @@ class PageDirector(BaseWeb):
             if table == 5:
                 self.page_click_next_day(0)
         sleep(1)
-        # self.page_click_submit()
+        self.page_click_submit()
+        sleep(10)
 
     # 周播单管理查找方法
     def page_week_program_manage_search(self, state, week_name):
@@ -236,9 +237,9 @@ class PageDirector(BaseWeb):
     # 创建日播单
     def page_program_day_create_form(self, filename, date):
         signal_list = GetProgram(filename).get_signal_by_date(date)
-        signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
-                       {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
-                       {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
+        # signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
+        #                {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
+        #                {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
         self.base_click(page.director_playdate)
         sleep(0.5)
         loc = By.XPATH, "//*[text()='{}']".format(date)
@@ -247,7 +248,8 @@ class PageDirector(BaseWeb):
             sleep(1)
             for signal in signal_list:
                 self.page_program_day_program_edit(signal)
-            # self.page_click_submit()
+            self.page_click_submit()
+            sleep(3)
 
     # 日播单管理查找方法
     def page_day_program_manage_search(self, state, day_name):
@@ -264,10 +266,10 @@ class PageDirector(BaseWeb):
         days = page.director_playdate_list
         days = ['2028-05-22', '2028-05-23', '2028-05-24', '2028-05-25', '2028-05-26', '2028-05-27', '2028-05-28']
         for table in range(7):
-            # signal_list = GetProgram(filename).get_signal(table)
-            signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
-                           {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
-                           {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
+            signal_list = GetProgram(filename).get_signal(table)
+            # signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
+            #                {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
+            #                {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
             self.base_click(page.director_playdate)
             sleep(0.5)
             loc = By.XPATH, "//*[text()='{}']".format(signal_list[0].get("date"))
@@ -290,6 +292,7 @@ class PageDirector(BaseWeb):
     def page_assert_day_program(self, day_name):
         program_dict = self.page_day_program_manage_search(state="审核中", day_name=day_name)
         return program_dict.get("exist")
+
 
 
 

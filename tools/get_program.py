@@ -118,13 +118,13 @@ class GetProgram:
                 time = dateH + ':' + dateM + ':' + dateS
                 date = y + '-' + m + '-' + d
                 # 节目名称
-                tag_name = tag[6:]
-                if operator.contains(tag_name, '好剧'):
-                    tag_name = tag_name[:7]
-                elif operator.contains(tag_name, '剧场'):
-                    tag_name = tag_name[:8]
+                tag_name0 = tag[6:]
+                if operator.contains(tag_name0, '好剧'):
+                    tag_name = tag_name0[:7]
+                elif operator.contains(tag_name0, '剧场'):
+                    tag_name = tag_name0[:8]
                 # 模板名称
-                copy_name = '000000' + tag_name
+                copy_name = '000000' + tag_name0
 
                 if w == '三':
                     if i == 3:
@@ -145,7 +145,7 @@ class GetProgram:
 
                 list1.append({'tag': tag, 'time': time2, 'copy_name': copy_name, 'month': M, 'day': D, 'date': date})
                 list2.append((tag, time, copy_name, M, D, date))
-                list_week.append({"row": num1, "duration": str(time2), "program_name": tag_name, "column": "河南法治报道"})
+                list_week.append({"row": num1, "duration": str(time2), "program_name": tag_name0, "column": "河南法治报道"})
                 list_signal.append({"row": num1, "play_mode": mode, "signal": signal, "date": date})
                 nums += 1
 
@@ -214,9 +214,9 @@ class GetProgram:
 
 
 if __name__ == '__main__':
-    get_prog = GetProgram("2028.5.22--2028.5.28.xlsx")
+    get_prog = GetProgram("2027.8.2--2027.8.8.xlsx")
     print(get_prog.get_program(6))
     print(get_prog.get_info(6))
     print(get_prog.get_signal(6))
-    print(get_prog.get_signal_by_date('2028-05-22'))
+    print(get_prog.get_signal_by_date('2027-08-02'))
 
