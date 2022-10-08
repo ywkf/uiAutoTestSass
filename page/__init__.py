@@ -192,6 +192,12 @@ director_manage_search_btn = By.XPATH, "//*[text()='查询']/.."
 director_manage_name_first = By.CSS_SELECTOR, "[class='cell el-tooltip']"
 # 首条节目单审核状态
 director_manage_state_first = By.XPATH, "//*[@class='cell']/span[contains(text(),'审核')]"
+# 首条节目单查看按钮
+director_manage_view_first_btn = By.XPATH, "//button/*[text()='查看']/.."
+# 查看全流程跟踪部门审核
+director_route_department = By.XPATH, "//*[text()='部门审核']"
+# 流程完成状态
+director_route_finish = "el-step__title is-finish"
 
 # 日播单管理
 director_day_manage = By.XPATH, "//li//*[text()='日播单管理']/.."

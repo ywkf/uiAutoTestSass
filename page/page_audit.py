@@ -94,7 +94,7 @@ class PageAudit(BaseWeb):
     def page_week_audit(self, week_name):
         channel = self.base_web_get_channel_by_program(week_name)
         self.page_click_week_audit()
-        sleep(5)
+        sleep(3)
         self.page_audit_search(channel, week_name)
         self.page_click_info_btn()
         sleep(0.5)
@@ -113,10 +113,10 @@ class PageAudit(BaseWeb):
         sleep(1)
 
     # 断言业务方法（周播单）
-    def page_assert_week_audit(self, week_name):
+    def page_assert_week_audit(self, state, week_name):
         # self.page_click_arrange_menu()
         sleep(0.5)
-        program_dict = self.page_week_manage_search(state="审核成功", week_name=week_name)
+        program_dict = self.page_week_manage_search(state=state, week_name=week_name)
         sleep(2)
         return program_dict.get("exist")
 
@@ -128,6 +128,25 @@ class PageAudit(BaseWeb):
         sleep(2)
         return program_dict.get("exist")
 
+    # 断言业务方法（周播单审核）
+    def page_assert_week_audit2(self, state, week_program):
+        sleep(0.5)
+        program_dict = self.page_week_manage_search(state=state, week_name=week_program)
+        sleep(2)
+        self.base_click(page.director_manage_view_first_btn)
+        sleep(0.5)
+        class1 = self.base_get_ele_attribute(page.director_route_department, "class")
+        return program_dict.get("exist") and (class1 == page.director_route_finish)
+
+    # 断言业务方法（日播单审核）
+    def page_assert_day_audit2(self, state, day_name):
+        sleep(0.5)
+        program_dict = self.page_day_manage_search(state=state, day_name=day_name)
+        sleep(2)
+        self.base_click(page.director_manage_view_first_btn)
+        sleep(0.5)
+        class1 = self.base_get_ele_attribute(page.director_route_department, "class")
+        return program_dict.get("exist") and (class1 == page.director_route_finish)
 
 
 

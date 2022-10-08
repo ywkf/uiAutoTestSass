@@ -35,7 +35,7 @@ class TestAudit:
     def test01_audit(self, state, day_name):
         # self.audit.page_day_audit(day_name)
         try:
-            assert self.audit.page_assert_day_audit(state, day_name)
+            assert self.audit.page_assert_day_audit2(state, day_name)
         except Exception as e:
             log.error("断言出错，错误信息：{}".format(e))
             # 截图

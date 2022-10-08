@@ -31,10 +31,10 @@ class TestAudit:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    def test01_audit(self, week_name=page.director_week_name):
+    def test01_audit(self, week_name=page.director_week_program):
         self.audit.page_week_audit(week_name)
         try:
-            assert self.audit.page_assert_week_audit(week_name)
+            assert self.audit.page_assert_week_audit2("审核中", week_name)
         except Exception as e:
             log.error("断言出错，错误信息：{}".format(e))
             # 截图

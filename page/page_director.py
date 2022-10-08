@@ -285,10 +285,10 @@ class PageDirector(BaseWeb):
 
     # 断言业务方法（周播单）
     def page_assert_week_program(self, week_name):
-        program_dict = self.page_week_program_manage_search(state="审核通过", week_name=week_name)
+        program_dict = self.page_week_program_manage_search(state="审核中", week_name=week_name)
         return program_dict.get("exist")
 
-        # 断言业务方法（日播单）
+    # 断言业务方法（日播单）
     def page_assert_day_program(self, day_name):
         program_dict = self.page_day_program_manage_search(state="审核中", day_name=day_name)
         return program_dict.get("exist")

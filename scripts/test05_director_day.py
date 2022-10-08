@@ -32,10 +32,11 @@ class TestDirectorDay:
     @pytest.mark.parametrize("filename,date,day_name,state", read_yaml("director_day.yaml"))
     def test03_director_day(self, filename, date, day_name, state):
         # 输入基本信息
-        self.director.page_program_day_info(filename)
-        # 创建日播单并提交
-        self.director.page_program_day_create_form(filename, date)
-        page.director_day_program = self.director.page_get_day_name()
+        # self.director.page_program_day_info(filename)
+        # # 创建日播单并提交
+        # self.director.page_program_day_create_form(filename, date)
+        # page.director_day_program = self.director.page_get_day_name()
+
         # assert day_name == self.director.page_get_day_name()
         # 日播单管理查找验证
         # self.director.page_day_program_manage_search(filename, page.director_day_program)

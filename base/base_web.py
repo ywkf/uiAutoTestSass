@@ -43,7 +43,7 @@ class BaseWeb(Base):
         # 2. 暂停
         sleep(0.5)
         # 3. 点击包含显示文本的元素
-        loc = By.XPATH, "//*[text()='{}']".format(click_text)
+        loc = By.XPATH, "//*[text()='{}']/..".format(click_text)
         self.base_click(loc)
 
     # 根据显示文本点击指定元素

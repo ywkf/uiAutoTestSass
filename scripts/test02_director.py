@@ -44,7 +44,7 @@ class TestDirector:
         # 周播单管理查找验证
         # self.director.page_week_program_manage_search(filename, page.director_week_program)
         try:
-            assert self.director.page_assert_week_program(week_name)
+            assert self.director.page_assert_week_program("审核中", week_name)
         except Exception as e:
             log.error("断言出错，错误信息：{}".format(e))
             # 截图
