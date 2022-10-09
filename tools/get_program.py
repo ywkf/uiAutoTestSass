@@ -4,9 +4,11 @@ import os
 import re
 
 import xlrd
+import yaml
 from xlrd import xldate_as_datetime, xldate_as_tuple
 
 from config import BASE_PATH
+from tools.read_yaml import read_yaml
 
 month_dict = {
         '1': '一',
@@ -180,6 +182,24 @@ class GetProgram:
         num = [i for i, x in enumerate(self.get_week_date()) if x == date]
         return self.get_signal(num[0])
 
+    # 生成 director_day.yaml, audit_day.yaml
+    def generate_director_day_yaml(self, filename_day="director_day1.yaml", filename_audit="audit_day1.yaml"):
+        filepath_day = BASE_PATH + os.sep + "data" + os.sep + filename_day
+        filepath_audit = BASE_PATH + os.sep + "data" + os.sep + filename_audit
+        channel = self.get_info(0).get("channel")
+        day_dict = {}
+        day_audit = {}
+        for i in range(7):
+            day_dict["directorDay00{}".format(i+1)] = {"day_name": channel + self.__get_date(i) + "日播单", "state": "审核中"}
+            day_audit["auditDay00{}".format(i+1)] = {"day_name": channel + self.__get_date(i) + "日播单", "state": "审核通过"}
+        day_yaml = yaml.dump(day_dict, indent=2, sort_keys=False, allow_unicode=True)
+        audit_yaml = yaml.dump(day_audit, indent=2, sort_keys=False, allow_unicode=True)
+        with open(filepath_day, "w", encoding="utf-8") as f:
+            f.write(day_yaml)
+        with open(filepath_audit, "w", encoding="utf-8") as f:
+            f.write(audit_yaml)
+        return day_yaml
+
     # 获取基本信息
     def get_info(self, num):
 
@@ -223,4 +243,5 @@ if __name__ == '__main__':
     print(get_prog.get_signal(6))
     print(get_prog.get_signal_by_date('2027-08-02'))
     print(get_prog.get_week_date())
+    # print(get_prog.generate_director_day_yaml())
 

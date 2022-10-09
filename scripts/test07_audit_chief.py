@@ -31,8 +31,8 @@ class TestAuditChief:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    @pytest.mark.parametrize("state,day_name", read_yaml("audit_day.yaml"))
-    def test01_audit(self, state, day_name):
+    @pytest.mark.parametrize("day_name,state", read_yaml("audit_day.yaml"))
+    def test01_audit_chief(self, day_name, state):
         # self.audit.page_day_audit(day_name)
         try:
             assert self.audit.page_assert_day_audit(state, day_name)

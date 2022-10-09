@@ -161,6 +161,8 @@ class BaseWeb(Base):
     def base_web_select_attr(self, row, attr_name, attr):
         log.info("正在调用web专属选择属性封装方法")
         loc = page.find_attr_by_num(row, page.attr_num.get(attr_name))
+        if attr_name == "play_mode" or attr_name == "signal":
+            loc = page.find_day_attr(row, attr_name)
         value = self.base_get_input_value(loc)
         if (attr is not None) and (value != attr) and (len(attr.strip()) != 0):
             self.base_click(loc)

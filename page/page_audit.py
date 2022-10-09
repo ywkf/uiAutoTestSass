@@ -43,11 +43,11 @@ class PageAudit(BaseWeb):
 
     # 点击详情进行审核按钮
     def page_click_info_btn(self):
-        self.base_click(page.audit_first_info_btn)
+        self.base_click(page.audit_first_info_btn, timeout=5)
 
     # 点击审核通过按钮
     def page_click_pass_btn(self):
-        self.base_click(page.audit_info_pass_btn)
+        self.base_click(page.audit_info_pass_btn, timeout=5)
 
     # 点击日播单审核
     def page_click_day_audit(self, click_text="日播单审核"):
@@ -105,7 +105,7 @@ class PageAudit(BaseWeb):
     def page_day_audit(self, day_name):
         channel = self.base_web_get_channel_by_program(day_name)
         self.page_click_day_audit()
-        sleep(5)
+        sleep(3)
         self.page_audit_search(channel, day_name)
         self.page_click_info_btn()
         sleep(0.5)

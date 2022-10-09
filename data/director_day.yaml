@@ -1,35 +1,21 @@
 directorDay001:
-  filename: "2027.8.2--2027.8.8.xlsx"
-  date: "2027-08-02"
-  day_name: "法治频道2027-08-02日播单"
-  state: "审核中"
+  day_name: 法治频道2027-08-02日播单
+  state: 审核中
 directorDay002:
-  filename: "2027.8.2--2027.8.8.xlsx"
-  date: "2027-08-03"
-  day_name: "法治频道2027-08-03日播单"
-  state: "审核中"
+  day_name: 法治频道2027-08-03日播单
+  state: 审核中
 directorDay003:
-  filename: "2027.8.2--2027.8.8.xlsx"
-  date: "2027-08-04"
-  day_name: "法治频道2027-08-04日播单"
-  state: "审核中"
+  day_name: 法治频道2027-08-04日播单
+  state: 审核中
 directorDay004:
-  filename: "2027.8.2--2027.8.8.xlsx"
-  date: "2027-08-05"
-  day_name: "法治频道2027-08-05日播单"
-  state: "审核中"
+  day_name: 法治频道2027-08-05日播单
+  state: 审核中
 directorDay005:
-  filename: "2027.8.2--2027.8.8.xlsx"
-  date: "2027-08-06"
-  day_name: "法治频道2027-08-06日播单"
-  state: "审核中"
+  day_name: 法治频道2027-08-06日播单
+  state: 审核中
 directorDay006:
-  filename: "2027.8.2--2027.8.8.xlsx"
-  date: "2027-08-07"
-  day_name: "法治频道2027-08-07日播单"
-  state: "审核中"
+  day_name: 法治频道2027-08-07日播单
+  state: 审核中
 directorDay007:
-  filename: "2027.8.2--2027.8.8.xlsx"
-  date: "2027-08-08"
-  day_name: "法治频道2027-08-08日播单"
-  state: "审核中"
+  day_name: 法治频道2027-08-08日播单
+  state: 审核中

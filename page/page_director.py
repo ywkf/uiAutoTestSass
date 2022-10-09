@@ -235,7 +235,8 @@ class PageDirector(BaseWeb):
         sleep(1)
 
     # 创建日播单
-    def page_program_day_create_form(self, filename, date):
+    def page_program_day_create_form(self, filename, day_name):
+        date = day_name[4:-3]
         signal_list = GetProgram(filename).get_signal_by_date(date)
         # signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
         #                {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
@@ -246,10 +247,10 @@ class PageDirector(BaseWeb):
         if self.base_ele_is_exist(loc, timeout=1, poll=0.1):
             self.base_click(loc)
             sleep(1)
-            for signal in signal_list:
-                self.page_program_day_program_edit(signal)
+            for data in signal_list:
+                self.page_program_day_program_edit(data)
             self.page_click_submit()
-            sleep(3)
+            sleep(5)
 
     # 日播单管理查找方法
     def page_day_program_manage_search(self, state, day_name):
@@ -284,13 +285,13 @@ class PageDirector(BaseWeb):
                 # self.page_click_submit()
 
     # 断言业务方法（周播单）
-    def page_assert_week_program(self, week_name):
-        program_dict = self.page_week_program_manage_search(state="审核中", week_name=week_name)
+    def page_assert_week_program(self, state, week_name):
+        program_dict = self.page_week_program_manage_search(state=state, week_name=week_name)
         return program_dict.get("exist")
 
     # 断言业务方法（日播单）
-    def page_assert_day_program(self, day_name):
-        program_dict = self.page_day_program_manage_search(state="审核中", day_name=day_name)
+    def page_assert_day_program(self, state, day_name):
+        program_dict = self.page_day_program_manage_search(state=state, day_name=day_name)
         return program_dict.get("exist")
 
 

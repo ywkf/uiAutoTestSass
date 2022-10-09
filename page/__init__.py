@@ -15,9 +15,20 @@ def find_btn_by_num(row, btn_num):
     return loc
 
 
+def find_day_attr(row, attr_name):
+    loc = []
+    if attr_name == "play_mode":
+        loc = By.XPATH, "//tr[{}]//td[2]//*[@placeholder='请选择']".format(row)
+    elif attr_name == "signal":
+        loc = By.XPATH, "//tr[{}]//td[7]//*[@placeholder='请选择']".format(row)
+    return loc
+
+
 """项目配置地址"""
 # url
 url = "https://pre-admin.hndt.com/home"
+# filename
+filename = read_yaml("director.yaml")[0][0]
 
 # 节目制作账号
 programing_phone = 19977777777
@@ -198,6 +209,8 @@ director_manage_view_first_btn = By.XPATH, "//button/*[text()='查看']/.."
 director_route_department = By.XPATH, "//*[text()='部门审核']"
 # 流程完成状态
 director_route_finish = "el-step__title is-finish"
+# 全流程状态关闭按钮
+director_route_close_btn = By.XPATH, "//*[text()='全流程跟踪']/..//*[@aria-label='Close']"
 
 # 日播单管理
 director_day_manage = By.XPATH, "//li//*[text()='日播单管理']/.."

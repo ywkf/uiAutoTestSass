@@ -31,11 +31,12 @@ class TestAudit:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    @pytest.mark.parametrize("state,day_name", read_yaml("audit_day.yaml"))
-    def test01_audit(self, state, day_name):
-        # self.audit.page_day_audit(day_name)
+    @pytest.mark.parametrize("day_name,state", read_yaml("audit_day.yaml"))
+    def test01_audit(self, day_name, state):
+        self.audit.page_day_audit(day_name)
         try:
-            assert self.audit.page_assert_day_audit2(state, day_name)
+            assert self.audit.page_assert_day_audit2(state="审核中", day_name=day_name)
+            self.audit.base_click(page.director_route_close_btn)
         except Exception as e:
             log.error("断言出错，错误信息：{}".format(e))
             # 截图

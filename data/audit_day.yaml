@@ -1,21 +1,21 @@
 auditDay001:
-  state: "审核通过"
-  day_name: "法治频道2027-08-02日播单"
+  day_name: 法治频道2027-08-02日播单
+  state: 审核通过
 auditDay002:
-  state: "审核通过"
-  day_name: "法治频道2027-08-03日播单"
+  day_name: 法治频道2027-08-03日播单
+  state: 审核通过
 auditDay003:
-  state: "审核通过"
-  day_name: "法治频道2027-08-04日播单"
+  day_name: 法治频道2027-08-04日播单
+  state: 审核通过
 auditDay004:
-  state: "审核通过"
-  day_name: "法治频道2027-08-05日播单"
+  day_name: 法治频道2027-08-05日播单
+  state: 审核通过
 auditDay005:
-  state: "审核通过"
-  day_name: "法治频道2027-08-06日播单"
+  day_name: 法治频道2027-08-06日播单
+  state: 审核通过
 auditDay006:
-  state: "审核通过"
-  day_name: "法治频道2027-08-07日播单"
+  day_name: 法治频道2027-08-07日播单
+  state: 审核通过
 auditDay007:
-  state: "审核通过"
-  day_name: "法治频道2027-08-08日播单"
+  day_name: 法治频道2027-08-08日播单
+  state: 审核通过

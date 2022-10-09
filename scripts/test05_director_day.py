@@ -29,19 +29,20 @@ class TestDirectorDay:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    @pytest.mark.parametrize("filename,date,day_name,state", read_yaml("director_day.yaml"))
-    def test03_director_day(self, filename, date, day_name, state):
+    @pytest.mark.parametrize("day_name,state", read_yaml("director_day.yaml"))
+    def test03_director_day(self, day_name, state, filename=page.filename):
         # 输入基本信息
-        # self.director.page_program_day_info(filename)
-        # # 创建日播单并提交
-        # self.director.page_program_day_create_form(filename, date)
-        # page.director_day_program = self.director.page_get_day_name()
+        self.director.page_program_day_info(filename)
+        # 创建日播单并提交
+        self.director.page_program_day_create_form(filename, day_name)
+        page.director_day_program = self.director.page_get_day_name()
 
         # assert day_name == self.director.page_get_day_name()
         # 日播单管理查找验证
         # self.director.page_day_program_manage_search(filename, page.director_day_program)
+
         try:
-            assert self.director.page_assert_day_program(day_name)
+            assert self.director.page_assert_day_program(state, day_name)
         except Exception as e:
             log.error("断言出错，错误信息：{}".format(e))
             # 截图
