@@ -183,7 +183,7 @@ class GetProgram:
         return self.get_signal(num[0])
 
     # 生成 director_day.yaml, audit_day.yaml
-    def generate_director_day_yaml(self, filename_day="director_day1.yaml", filename_audit="audit_day1.yaml"):
+    def generate_director_day_yaml(self, filename_day="director_day.yaml", filename_audit="audit_day.yaml"):
         filepath_day = BASE_PATH + os.sep + "data" + os.sep + filename_day
         filepath_audit = BASE_PATH + os.sep + "data" + os.sep + filename_audit
         channel = self.get_info(0).get("channel")
@@ -237,11 +237,11 @@ class GetProgram:
 
 
 if __name__ == '__main__':
-    get_prog = GetProgram("2027.8.2--2027.8.8.xlsx")
+    get_prog = GetProgram("2027.8.9--2027.8.15.xlsx")
     print(get_prog.get_program(6))
     print(get_prog.get_info(6))
     print(get_prog.get_signal(6))
-    print(get_prog.get_signal_by_date('2027-08-02'))
+    print(get_prog.get_signal_by_date('2027-08-09'))
     print(get_prog.get_week_date())
     # print(get_prog.generate_director_day_yaml())
 

@@ -20,7 +20,7 @@ class TestAudit:
         # 获取PageLogin对象并调用成功登录依赖方法
         self.page_in.get_page_login().page_login_role(page.channel_audit_phone, page.channel_audit_pwd, page.channel_audit_secret)
         # 获取PageDirector页面对象
-        self.audit = PageIn(driver).get_page_audit()
+        self.audit = self.page_in.get_page_audit()
         # 进入节目编单页面
         self.audit.page_click_arrange()
         # 点击展开节目排单菜单

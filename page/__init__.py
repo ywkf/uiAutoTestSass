@@ -218,7 +218,21 @@ director_day_manage = By.XPATH, "//li//*[text()='日播单管理']/.."
 director_day_search_name = By.CSS_SELECTOR, "[placeholder='节目单名称']"
 
 # 新增节目按钮
-director_new_program = By.XPATH, "//*[text()='新增节目']/.."
+director_new_program_btn = By.XPATH, "//*[text()='新增节目']/.."
+# 新增节目预计时长
+director_new_program_duration = By.XPATH, "//*[@class='time-code w120']//input"
+# 提交审核按钮
+director_new_program_submit_btn = By.XPATH, "//*[@class='el-icon-document-add']/.."
+# 新增节目提示信息
+director_new_program_msg = By.CSS_SELECTOR, "[el-message__content]"
+# 查询按钮
+director_search_btn = By.XPATH, "//*[text()='查询']/.."
+# 节目管理首条节目ID
+director_new_program_first_id = By.XPATH, "//*[@class='cell el-tooltip']//span"
+# 节目管理首条节目名称
+director_new_program_first_name = By.XPATH, "//*[@class='el-table_1_column_2   el-table__cell']//div"
+# 节目管理首条节目状态
+director_new_program_first_state = By.XPATH, "//*[@class='el-table_1_column_10   el-table__cell']//span"
 
 
 """以下为节目编单（审核）页面元素配置信息"""

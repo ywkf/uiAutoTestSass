@@ -20,7 +20,7 @@ class TestDirectorDay:
         # 获取PageLogin对象并调用成功登录依赖方法
         self.page_in.get_page_login().page_login_role(page.director_phone, page.director_pwd, page.director_secret)
         # 获取PageDirector页面对象
-        self.director = PageIn(driver).get_page_director()
+        self.director = self.page_in.get_page_director()
         # 进入节目编单页面
         self.director.page_click_arrange()
 

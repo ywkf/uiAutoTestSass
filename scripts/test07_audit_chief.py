@@ -20,7 +20,7 @@ class TestAuditChief:
         # 获取PageLogin对象并调用成功登录依赖方法
         self.page_in.get_page_login().page_login_role(page.chief_audit_phone, page.chief_audit_pwd, page.chief_audit_secret)
         # 获取PageDirector页面对象
-        self.audit = PageIn(driver).get_page_audit()
+        self.audit = self.page_in.get_page_audit()
         # 进入节目编单页面
         self.audit.page_click_arrange()
         # 点击展开节目排单菜单
@@ -33,7 +33,7 @@ class TestAuditChief:
     # 测试业务方法
     @pytest.mark.parametrize("day_name,state", read_yaml("audit_day.yaml"))
     def test01_audit_chief(self, day_name, state):
-        # self.audit.page_day_audit(day_name)
+        self.audit.page_day_audit(day_name)
         try:
             assert self.audit.page_assert_day_audit(state, day_name)
         except Exception as e:

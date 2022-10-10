@@ -58,6 +58,15 @@ class BaseWeb(Base):
         loc1 = By.XPATH, "//li//*[text()='{}']".format(click_text)
         self.base_click(loc1)
 
+    # 根据显示文本输入指定元素
+    def base_web_input_text(self, placeholder_text, input_text):
+        log.info("正在调用web专属输入封装方法")
+        # if type(input_text) is tuple:
+        #     input_text = input_text[0]
+        #     print("web input_text", input_text)
+        loc = By.CSS_SELECTOR, "[placeholder='{}']".format(placeholder_text)
+        self.base_input(loc, input_text)
+
     # 根据显示文本从剪贴板粘贴指定元素
     def base_web_input_element(self, placeholder_text, input_text):
         log.info("正在调用web专属剪贴板封装方法")
