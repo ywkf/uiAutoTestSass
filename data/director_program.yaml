@@ -21,7 +21,7 @@ directorProgram002:
   duration: "00:20:00:00"
   self_type: "自办"
   pre_type: "普通"
-  reason: "test1"
+  reason: "test2"
 directorProgram003:
   playdate:
     year: "2027"
@@ -33,5 +33,5 @@ directorProgram003:
   duration: "00:25:00:00"
   self_type: "自办"
   pre_type: "普通"
-  reason: "test1"
+  reason: "test3"
 

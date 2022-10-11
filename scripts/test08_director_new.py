@@ -1,7 +1,10 @@
+import pytest
+
 import page
 from page.page_in import PageIn
 from tools.get_driver import GetDriver
 from tools.get_log import GetLog
+from tools.read_yaml import read_yaml
 
 log = GetLog.get_logger()
 
@@ -26,19 +29,16 @@ class TestDirectorNew:
         GetDriver.quit_web_driver()
 
     # 测试业务方法
-    def test01_new_program(self):
-        info = {
-            "playdate":{
-                "year": "2027",
-                "month": "八月",
-                "day": "2"},
-            "program_type": "测试",
-            "column": "河南法治报道",
-            "program_name": "法制剧场1",
-            "duration": "00:15:00:00",
-            "self_type": "自办",
-            "pre_type": "普通",
-            "reason": "test1"
-        }
+    @pytest.mark.parametrize("playdate,program_type,column,program_name,duration,self_type,pre_type,reason", read_yaml("director_program.yaml"))
+    def test01_new_program(self, playdate, program_type, column, program_name, duration, self_type, pre_type, reason):
         self.program.page_click_program_manage()
-        self.program.page_new_program_info(info)
+        self.program.page_new_program_info(playdate, program_type, column, program_name, duration, self_type, pre_type, reason)
+        page.new_program_list.append((column, program_name))
+        try:
+            assert "提交审核成功!" == self.program.page_get_msg()
+        except Exception as e:
+            log.error("断言出错，错误信息：{}".format(e))
+            # 截图
+            self.program.base_screenshot()
+            # 抛出异常
+            raise

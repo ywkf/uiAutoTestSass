@@ -47,6 +47,18 @@ class BaseWeb(Base):
         self.base_click(loc)
 
     # 根据显示文本点击指定元素
+    def base_web_select_element(self, placeholder_text, click_text):
+        log.info("正在调用web新增节目复选框选择封装方法")
+        # 1. 点击复选框
+        loc = By.CSS_SELECTOR, "[placeholder='{}']".format(placeholder_text)
+        self.base_click(loc)
+        # 2. 暂停
+        sleep(0.5)
+        # 3. 点击包含显示文本的元素
+        loc = By.XPATH, "//div[@x-placement='bottom-start']//span[text()='{}']/..".format(click_text)
+        self.base_click(loc)
+
+    # 根据显示文本点击指定元素
     def base_web_select_ele(self, placeholder_text, click_text):
         log.info("正在调用web专属复选框选择封装方法")
         # 1. 点击复选框
@@ -78,6 +90,7 @@ class BaseWeb(Base):
 
     # 根据文本点击导航菜单
     def base_web_click_mute(self, click_text):
+        log.info("正在调用web点击导航菜单方法，选择菜单：{}".format(click_text))
         loc = By.XPATH, "//li//*[text()='{}']/..".format(click_text)
         self.base_click(loc)
 
@@ -122,7 +135,7 @@ class BaseWeb(Base):
 
     # 选择日期
     def base_web_select_date(self, date):
-        log.info("正在调用web专属选择日期封装方法")
+        log.info("正在调用web专属选择日期封装方法, 选择日期：{}".format(date))
         # date = {"year": "2022", "month": "八月", "day": "6"}
         loc_Y = By.XPATH, "//*[@class='cell'][text()='{}']".format(date.get("year"))
         loc_m = By.XPATH, "//*[@class='cell'][text()='{}']".format(date.get("month"))
@@ -168,7 +181,7 @@ class BaseWeb(Base):
 
     # 根据行和属性名称选择对应属性
     def base_web_select_attr(self, row, attr_name, attr):
-        log.info("正在调用web专属选择属性封装方法")
+        log.info("正在调用web专属选择属性封装方法，第 {} 行，{} 属性，值为：{}".format(row, attr_name, attr))
         loc = page.find_attr_by_num(row, page.attr_num.get(attr_name))
         if attr_name == "play_mode" or attr_name == "signal":
             loc = page.find_day_attr(row, attr_name)
@@ -190,6 +203,7 @@ class BaseWeb(Base):
 
     # 周选择
     def base_web_select_week_num(self, week_num):
+        log.info("正在调用web专属周播单选择星期方法")
         loc = (page.director_week_num[0], page.director_week_num[1].format(week_num))
         self.base_click(loc)
         sleep(0.5)
@@ -223,6 +237,7 @@ class BaseWeb(Base):
 
     # 节目单管理查询
     def base_web_program_search(self, channel, state, placeholder_text, program_name):
+        log.info("正在调用web专属节目单管理查询封装方法")
         name = ""
         state1 = ""
         # 选择频道

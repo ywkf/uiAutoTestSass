@@ -27,11 +27,11 @@ class PageAudit(BaseWeb):
 
     # 选择频道
     def page_select_channel(self, channel):
-        self.base_web_click_element(placeholder_text="所属频道", click_text=channel)
+        self.base_web_select_ele(placeholder_text="所属频道", click_text=channel)
 
-    # 搜索框输入节目单名称
-    def page_input_search_name(self, value):
-        self.base_input(page.audit_search_name, value)
+    # 周播单审核搜索框输入节目单名称
+    def page_input_search_name(self, program_name):
+        self.base_web_input_element(placeholder_text="节目单名称", input_text=program_name)
 
     # 点击查询按钮
     def page_click_search_btn(self):
@@ -69,8 +69,36 @@ class PageAudit(BaseWeb):
         return self.base_web_program_search(channel=channel, state=state, placeholder_text="周播单名称", program_name=week_name)
 
     # 点击日播单管理
-    def page_click_day_manage(self):
-        self.base_web_click_mute("日播单管理")
+    def page_click_day_manage(self, click_text="日播单管理"):
+        self.base_web_click_mute(click_text)
+
+    # 点击新增节目审核
+    def page_click_new_program_audit(self, click_text="新增节目审核"):
+        self.base_web_click_mute(click_text)
+
+    # 选择栏目
+    def page_select_column(self, column):
+        self.base_web_select_ele(placeholder_text="所属栏目", click_text=column)
+
+    # 选择审核状态
+    def page_select_audit_state(self, audit_state):
+        self.base_web_click_element(placeholder_text="审核", click_text=audit_state)
+
+    # 新增节目审核输入节目名称
+    def page_input_program_name(self, program_name):
+        self.base_web_input_text(placeholder_text="请输入节目名称查询", input_text=program_name)
+
+    # 获取新增节目审核首条节目名称
+    def page_get_new_audit_first_name(self):
+        return self.base_get_text(page.audit_new_program_first_name)
+
+    # 点击新增节目审核同意按钮
+    def page_click_new_audit_accept_btn(self):
+        self.base_click(page.audit_new_program_accept)
+
+    # 获取提示信息
+    def page_get_msg(self):
+        return self.base_get_text(page.director_new_program_msg)
 
     # 日播单管理查询
     def page_day_manage_search(self, state, day_name):
@@ -90,11 +118,21 @@ class PageAudit(BaseWeb):
         program_name = self.page_get_first_program_name()
         return program_name
 
+    # 新增节目审核查询方法
+    def page_new_audit_search(self, column, name):
+        self.page_select_column(column)
+        self.page_input_program_name(name)
+        sleep(0.5)
+        self.page_click_search_btn()
+        sleep(2)
+        program_name = self.page_get_new_audit_first_name()
+        return program_name
+
     # 周播单审核组合业务方法
     def page_week_audit(self, week_name):
         channel = self.base_web_get_channel_by_program(week_name)
         self.page_click_week_audit()
-        sleep(3)
+        sleep(2)
         self.page_audit_search(channel, week_name)
         self.page_click_info_btn()
         sleep(0.5)
@@ -105,11 +143,21 @@ class PageAudit(BaseWeb):
     def page_day_audit(self, day_name):
         channel = self.base_web_get_channel_by_program(day_name)
         self.page_click_day_audit()
-        sleep(3)
+        sleep(2)
         self.page_audit_search(channel, day_name)
         self.page_click_info_btn()
         sleep(0.5)
         self.page_click_pass_btn()
+        sleep(1)
+
+    # 新增节目审核组合业务方法
+    def page_new_audit(self, column, program_name):
+        self.page_click_new_program_audit()
+        sleep(2)
+        self.page_new_audit_search(column, program_name)
+        self.page_click_info_btn()
+        sleep(0.5)
+        self.page_click_new_audit_accept_btn()
         sleep(1)
 
     # 断言业务方法（周播单）

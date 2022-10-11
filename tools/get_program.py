@@ -244,4 +244,5 @@ if __name__ == '__main__':
     print(get_prog.get_signal_by_date('2027-08-09'))
     print(get_prog.get_week_date())
     # print(get_prog.generate_director_day_yaml())
+    print(read_yaml("director_program.yaml"))
 

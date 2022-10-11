@@ -30,11 +30,11 @@ class PageNewProgram(BaseWeb):
 
     # 选择节目类型
     def page_select_program_type(self, program_type):
-        self.base_web_click_element(placeholder_text="请选择节目类型", click_text=program_type)
+        self.base_web_select_element(placeholder_text="请选择节目类型", click_text=program_type)
 
     # 选择所属栏目
     def page_select_column(self, column):
-        self.base_web_click_element(placeholder_text="请选择栏目", click_text=column)
+        self.base_web_select_element(placeholder_text="请选择栏目", click_text=column)
 
     # 输入节目名称
     def page_input_program_name(self, program_name):
@@ -46,11 +46,11 @@ class PageNewProgram(BaseWeb):
 
     # 选择节目自办类型
     def page_select_self_type(self, self_type):
-        self.base_web_click_element(placeholder_text="自办/非自办，默认值设自办", click_text=self_type)
+        self.base_web_select_element(placeholder_text="自办/非自办，默认值设自办", click_text=self_type)
 
     # 选择备播类型
     def page_select_pre_type(self, pre_type):
-        self.base_web_click_element(placeholder_text="普通/当日（涉及到节目提交的关门时间）", click_text=pre_type)
+        self.base_web_select_element(placeholder_text="普通/当日（涉及到节目提交的关门时间）", click_text=pre_type)
 
     # 输入申请原因
     def page_input_reason(self, reason):
@@ -103,18 +103,20 @@ class PageNewProgram(BaseWeb):
         self.page_click_search_btn()
 
     # 整合输入节目信息方法
-    def page_new_program_info(self, info):
+    def page_new_program_info(self, playdate, program_type, column, program_name, duration, self_type, pre_type, reason):
         self.page_click_new()
         sleep(1)
-        self.page_select_playdate(info.get("playdate"))
-        # self.page_select_program_type(info.get("program_type"))
-        # self.page_select_column(info.get("column"))
-        self.page_input_program_name(info.get("program_name"))
-        self.page_input_duration(info.get("duration"))
-        # self.page_select_self_type(info.get("self_type"))
-        self.page_select_pre_type(info.get("pre_type"))
-        self.page_input_reason(info.get("reason"))
+        self.page_select_playdate(playdate)
+        self.page_select_program_type(program_type)
+        self.page_select_column(column)
+        self.page_input_program_name(program_name)
+        self.page_input_duration(duration)
+        self.page_select_self_type(self_type)
+        self.page_select_pre_type(pre_type)
+        self.page_input_reason(reason)
+        sleep(0.5)
         self.page_click_submit()
+        sleep(1)
 
     # 整合业务方法
     def page_new_program(self, info):

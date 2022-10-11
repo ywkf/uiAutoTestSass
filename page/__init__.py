@@ -224,7 +224,7 @@ director_new_program_duration = By.XPATH, "//*[@class='time-code w120']//input"
 # 提交审核按钮
 director_new_program_submit_btn = By.XPATH, "//*[@class='el-icon-document-add']/.."
 # 新增节目提示信息
-director_new_program_msg = By.CSS_SELECTOR, "[el-message__content]"
+director_new_program_msg = By.XPATH, "//*[@class='el-message__content']"
 # 查询按钮
 director_search_btn = By.XPATH, "//*[text()='查询']/.."
 # 节目管理首条节目ID
@@ -236,6 +236,9 @@ director_new_program_first_state = By.XPATH, "//*[@class='el-table_1_column_10  
 
 
 """以下为节目编单（审核）页面元素配置信息"""
+# 新增节目列表
+new_program_list = []
+
 # 周播单审核
 audit_week = By.XPATH, "//li//*[text()='周播单审核']/.."
 # 节目单名称搜索框
@@ -248,6 +251,10 @@ audit_first_program_name = By.XPATH, "//td//div[contains(text(),'播单')]"
 audit_first_info_btn = By.XPATH, "//*[text()='点击详情进行审核']/.."
 # 审核通过按钮
 audit_info_pass_btn = By.CSS_SELECTOR, "[class='el-button el-button--success el-button--small']"
+# 新增节目审核同意按钮
+audit_new_program_accept = By.XPATH, "//*[@type='button']//span[text()='同意']"
+# 新增节目审核首条节目名称
+audit_new_program_first_name = By.XPATH, "//*[@class='el-table_1_column_2   el-table__cell']"
 
 
 
