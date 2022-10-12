@@ -2,8 +2,10 @@ from time import sleep
 
 import page
 from base.base_web import BaseWeb
+from tools.get_log import GetLog
 from tools.get_program import GetProgram
 
+log = GetLog.get_logger()
 
 class PageAudit(BaseWeb):
 
@@ -102,14 +104,16 @@ class PageAudit(BaseWeb):
 
     # 日播单管理查询
     def page_day_manage_search(self, state, day_name):
+        log.info("正在调用 日播单管理 页面 查询 业务方法，查询的日播单为：{}，状态为：{}".format(day_name, state))
         channel = self.base_web_get_channel_by_program(day_name)
         self.page_click_day_manage()
         sleep(2)
         print("audit day_name: ", day_name, type(day_name))
         return self.base_web_program_search(channel=channel, state=state, placeholder_text="节目单名称", program_name=day_name)
 
-    # 节目单审核查找方法
+    # 节目单审核查询方法
     def page_audit_search(self, channel, name):
+        log.info("正在调用 周/日播单审核 页面 查询 业务方法，查询的节目单为：{}，频道为：{}".format(name, channel))
         self.page_select_channel(channel)
         self.page_input_search_name(name)
         sleep(0.5)
@@ -120,6 +124,7 @@ class PageAudit(BaseWeb):
 
     # 新增节目审核查询方法
     def page_new_audit_search(self, column, name):
+        log.info("正在调用 新增节目审核 页面 查询 业务方法，查询的节目为：{}，栏目为：{}".format(name, column))
         self.page_select_column(column)
         self.page_input_program_name(name)
         sleep(0.5)
@@ -130,6 +135,7 @@ class PageAudit(BaseWeb):
 
     # 周播单审核组合业务方法
     def page_week_audit(self, week_name):
+        log.info("正在调用 周播单审核 页面 审核通过 业务方法，审核的周播单为：{}".format(week_name))
         channel = self.base_web_get_channel_by_program(week_name)
         self.page_click_week_audit()
         sleep(2)
@@ -141,6 +147,7 @@ class PageAudit(BaseWeb):
 
     # 日播单审核组合业务方法
     def page_day_audit(self, day_name):
+        log.info("正在调用 日播单审核 页面 审核通过 业务方法，审核的日播单为：{}".format(day_name))
         channel = self.base_web_get_channel_by_program(day_name)
         self.page_click_day_audit()
         sleep(2)
@@ -152,6 +159,7 @@ class PageAudit(BaseWeb):
 
     # 新增节目审核组合业务方法
     def page_new_audit(self, column, program_name):
+        log.info("正在调用 新增节目审核 审核通过 业务方法，审核的节目为：{}，栏目为：{}".format(program_name, column))
         self.page_click_new_program_audit()
         sleep(2)
         self.page_new_audit_search(column, program_name)
@@ -162,7 +170,7 @@ class PageAudit(BaseWeb):
 
     # 断言业务方法（周播单）
     def page_assert_week_audit(self, state, week_name):
-        # self.page_click_arrange_menu()
+        log.info("正在调用断言业务方法（周播单总编室审核），周播单名称：{}，审核状态：{}".format(week_name, state))
         sleep(0.5)
         program_dict = self.page_week_manage_search(state=state, week_name=week_name)
         sleep(2)
@@ -170,7 +178,7 @@ class PageAudit(BaseWeb):
 
     # 断言业务方法（日播单）
     def page_assert_day_audit(self, state, day_name):
-        # self.page_click_arrange_menu()
+        log.info("正在调用断言业务方法（日播单总编室审核），日播单名称：{}，审核状态：{}".format(day_name, state))
         sleep(0.5)
         program_dict = self.page_day_manage_search(state=state, day_name=day_name)
         sleep(2)
@@ -178,6 +186,7 @@ class PageAudit(BaseWeb):
 
     # 断言业务方法（周播单审核）
     def page_assert_week_audit2(self, state, week_program):
+        log.info("正在调用断言业务方法（周播单频道审核），周播单名称：{}，审核状态：{}".format(week_program, state))
         sleep(0.5)
         program_dict = self.page_week_manage_search(state=state, week_name=week_program)
         sleep(2)
@@ -188,6 +197,7 @@ class PageAudit(BaseWeb):
 
     # 断言业务方法（日播单审核）
     def page_assert_day_audit2(self, state, day_name):
+        log.info("正在调用断言业务方法（日播单部门审核），日播单名称：{}，审核状态：{}".format(day_name, state))
         sleep(0.5)
         program_dict = self.page_day_manage_search(state=state, day_name=day_name)
         sleep(2)

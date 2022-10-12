@@ -2,7 +2,7 @@ directorProgram001:
   playdate:
     year: "2027"
     month: "八月"
-    day: "2"
+    day: "16"
   program_type: "测试"
   column: "河南法治报道"
   program_name: "法制剧场1"
@@ -14,7 +14,7 @@ directorProgram002:
   playdate:
     year: "2027"
     month: "八月"
-    day: "2"
+    day: "16"
   program_type: "电视剧"
   column: "河南法治报道"
   program_name: "法制剧场2"
@@ -22,16 +22,16 @@ directorProgram002:
   self_type: "自办"
   pre_type: "普通"
   reason: "test2"
-directorProgram003:
-  playdate:
-    year: "2027"
-    month: "八月"
-    day: "2"
-  program_type: "栏目"
-  column: "河南法治报道"
-  program_name: "法制剧场3"
-  duration: "00:25:00:00"
-  self_type: "自办"
-  pre_type: "普通"
-  reason: "test3"
+#directorProgram003:
+#  playdate:
+#    year: "2027"
+#    month: "八月"
+#    day: "16"
+#  program_type: "栏目"
+#  column: "河南法治报道"
+#  program_name: "法制剧场3"
+#  duration: "00:25:00:00"
+#  self_type: "自办"
+#  pre_type: "普通"
+#  reason: "test3"
 

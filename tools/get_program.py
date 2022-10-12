@@ -32,6 +32,7 @@ class GetProgram:
     __table = None
 
     def __init__(self, filename):
+        self.filename = filename
         self.filepath = BASE_PATH + os.sep + "data" + os.sep + filename
         if self.__excel is None:
             self.excel = xlrd.open_workbook(self.filepath)
@@ -182,22 +183,35 @@ class GetProgram:
         num = [i for i, x in enumerate(self.get_week_date()) if x == date]
         return self.get_signal(num[0])
 
-    # 生成 director_day.yaml, audit_day.yaml
-    def generate_director_day_yaml(self, filename_day="director_day.yaml", filename_audit="audit_day.yaml"):
+    # 生成 director.yaml, director_day.yaml, audit_day.yaml
+    def generate_director_day_yaml(self, filename_director="director.yaml", filename_day="director_day.yaml", filename_audit="audit_day.yaml"):
+        # 文件路径
+        filename_director = BASE_PATH + os.sep + "data" + os.sep + filename_director
         filepath_day = BASE_PATH + os.sep + "data" + os.sep + filename_day
         filepath_audit = BASE_PATH + os.sep + "data" + os.sep + filename_audit
-        channel = self.get_info(0).get("channel")
+        # 获取周播单名称和频道
+        program_info = self.get_info(0)
+        week_name = program_info.get("week_program")
+        channel = program_info.get("channel")
+        # 生成dict
+        director_dict = {}
         day_dict = {}
         day_audit = {}
         for i in range(7):
             day_dict["directorDay00{}".format(i+1)] = {"day_name": channel + self.__get_date(i) + "日播单", "state": "审核中"}
             day_audit["auditDay00{}".format(i+1)] = {"day_name": channel + self.__get_date(i) + "日播单", "state": "审核通过"}
+        director_dict["director001"] = {"filename": self.filename, "week_name": week_name}
+        # json转yaml
+        director_yaml = yaml.dump(director_dict, indent=2, sort_keys=False, allow_unicode=True)
         day_yaml = yaml.dump(day_dict, indent=2, sort_keys=False, allow_unicode=True)
         audit_yaml = yaml.dump(day_audit, indent=2, sort_keys=False, allow_unicode=True)
+        # 写入文件
         with open(filepath_day, "w", encoding="utf-8") as f:
             f.write(day_yaml)
         with open(filepath_audit, "w", encoding="utf-8") as f:
             f.write(audit_yaml)
+        with open(filename_director, "w", encoding="utf-8") as f:
+            f.write(director_yaml)
         return day_yaml
 
     # 获取基本信息
@@ -235,14 +249,40 @@ class GetProgram:
 
         return info_dict
 
+    # 清空report目录
+    report_path = BASE_PATH + os.sep + "report" + os.sep
+
+    def clear_report(self, path=report_path):
+        ls = os.listdir(path)
+        for i in ls:
+            c_path = os.path.join(path, i)
+            if os.path.isdir(c_path):
+                self.clear_report(c_path)
+            else:
+                os.remove(c_path)
+
 
 if __name__ == '__main__':
-    get_prog = GetProgram("2027.8.9--2027.8.15.xlsx")
+    # 获取xlsx文件名称
+    filepath = BASE_PATH + os.sep + "data"
+    filelist = os.listdir(filepath)
+    data_name = ""
+    for i in filelist:
+        if i.endswith(".xlsx"):
+            data_name = i
+            break
+    print(data_name)
+
+    get_prog = GetProgram(data_name)
     print(get_prog.get_program(6))
     print(get_prog.get_info(6))
     print(get_prog.get_signal(6))
-    print(get_prog.get_signal_by_date('2027-08-09'))
+    # print(get_prog.get_signal_by_date('2027-08-16'))
     print(get_prog.get_week_date())
-    # print(get_prog.generate_director_day_yaml())
-    print(read_yaml("director_program.yaml"))
+
+    # 生成 director.yaml, director_day.yaml, audit_day.yaml
+    print(get_prog.generate_director_day_yaml())
+
+    # 清空report目录
+    # get_prog.clear_report()
 

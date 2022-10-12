@@ -33,7 +33,7 @@ class TestDirectorNew:
     def test01_new_program(self, playdate, program_type, column, program_name, duration, self_type, pre_type, reason):
         self.program.page_click_program_manage()
         self.program.page_new_program_info(playdate, program_type, column, program_name, duration, self_type, pre_type, reason)
-        page.new_program_list.append((column, program_name))
+        # page.new_program_list.append((column, program_name))
         try:
             assert "提交审核成功!" == self.program.page_get_msg()
         except Exception as e:

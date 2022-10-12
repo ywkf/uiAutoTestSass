@@ -238,6 +238,8 @@ director_new_program_first_state = By.XPATH, "//*[@class='el-table_1_column_10  
 """以下为节目编单（审核）页面元素配置信息"""
 # 新增节目列表
 new_program_list = []
+for i in read_yaml("director_program.yaml"):
+    new_program_list.append((i[2], i[3]))
 
 # 周播单审核
 audit_week = By.XPATH, "//li//*[text()='周播单审核']/.."

@@ -2,6 +2,9 @@ from time import sleep
 
 import page
 from base.base_web import BaseWeb
+from tools.get_log import GetLog
+
+log = GetLog.get_logger()
 
 
 class PageNewProgram(BaseWeb):
@@ -98,12 +101,14 @@ class PageNewProgram(BaseWeb):
 
     # 整合查询方法
     def page_search(self, program_id):
+        log.info("正在调用 节目管理 页面 查询 业务方法，查询节目ID：{}".format(program_id))
         self.page_input_id_search(program_id)
         sleep(0.5)
         self.page_click_search_btn()
 
-    # 整合输入节目信息方法
+    # 整合新增节目输入信息方法
     def page_new_program_info(self, playdate, program_type, column, program_name, duration, self_type, pre_type, reason):
+        log.info("正在调用新增节目业务方法，新增节目名称：{}".format(program_name))
         self.page_click_new()
         sleep(1)
         self.page_select_playdate(playdate)

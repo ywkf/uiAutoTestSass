@@ -9,6 +9,7 @@ from tools.get_program import GetProgram
 
 log = GetLog.get_logger()
 
+
 class PageDirector(BaseWeb):
 
     # 点击节目编单
@@ -27,7 +28,6 @@ class PageDirector(BaseWeb):
 
     # 选择所属频道
     def page_select_channel(self, channel):
-        # self.base_web_click_element("请选择频道", channel)
         self.base_web_click_ele(page.director_belong_channel, channel)
 
     # 选择周播单时间
@@ -182,6 +182,7 @@ class PageDirector(BaseWeb):
 
     # 周播单添加节目(频道导播)
     def page_program_week_program_insert(self, data):
+        log.info("创建周播单，正在添加节目：{}".format(data.get("program_name")))
         row = data.get("row")
         self.page_input_duration(row, data.get("duration"))
         self.page_input_name(row, data.get("program_name"))
@@ -230,17 +231,17 @@ class PageDirector(BaseWeb):
     # 日播单编辑节目
     def page_program_day_program_edit(self, data):
         row = data.get("row")
+        log.info("创建日播单，正在编辑第 {} 行".format(row))
         self.page_select_play_mode(row, data.get("play_mode"))
         self.page_select_signal(row, data.get("signal"))
         sleep(1)
 
     # 创建日播单
     def page_program_day_create_form(self, filename, day_name):
+        log.info("正在调用创建日播单业务方法，日播单名称：{}，文件名：{}".format(day_name, filename))
         date = day_name[4:-3]
         signal_list = GetProgram(filename).get_signal_by_date(date)
-        # signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
-        #                {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
-        #                {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
+        # signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'}]
         self.base_click(page.director_playdate)
         sleep(0.5)
         loc = By.XPATH, "//*[text()='{}']".format(date)
@@ -263,14 +264,12 @@ class PageDirector(BaseWeb):
 
     # 创建日播单整合
     def page_program_day_create_form_all(self, filename):
-        log.info("正在调用创建日播单方法，文件名：{}".format(filename))
+        log.info("正在调用创建一周日播单方法，文件名：{}".format(filename))
         days = page.director_playdate_list
         days = ['2028-05-22', '2028-05-23', '2028-05-24', '2028-05-25', '2028-05-26', '2028-05-27', '2028-05-28']
         for table in range(7):
             signal_list = GetProgram(filename).get_signal(table)
-            # signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'},
-            #                {'row': '2', 'play_mode': '定时', 'signal': '中1光纤', 'date': '2028-05-28'},
-            #                {'row': '3', 'play_mode': '顺时', 'signal': '', 'date': '2028-05-28'}]
+            # signal_list = [{'row': '1', 'play_mode': '顺序', 'signal': '140ST#1', 'date': '2028-05-28'}]
             self.base_click(page.director_playdate)
             sleep(0.5)
             loc = By.XPATH, "//*[text()='{}']".format(signal_list[0].get("date"))
@@ -286,11 +285,13 @@ class PageDirector(BaseWeb):
 
     # 断言业务方法（周播单）
     def page_assert_week_program(self, state, week_name):
+        log.info("正在调用断言业务方法（创建周播单），周播单名称：{}，审核状态：{}".format(week_name, state))
         program_dict = self.page_week_program_manage_search(state=state, week_name=week_name)
         return program_dict.get("exist")
 
     # 断言业务方法（日播单）
     def page_assert_day_program(self, state, day_name):
+        log.info("正在调用断言业务方法（创建日播单），日播单名称：{}，审核状态：{}".format(day_name, state))
         program_dict = self.page_day_program_manage_search(state=state, day_name=day_name)
         return program_dict.get("exist")
 
