@@ -184,7 +184,7 @@ class GetProgram:
         return self.get_signal(num[0])
 
     # 生成 director.yaml, director_day.yaml, audit_day.yaml
-    def generate_director_day_yaml(self, filename_director="director.yaml", filename_day="director_day.yaml", filename_audit="audit_day.yaml"):
+    def generate_test_yaml(self, filename_director="director.yaml", filename_day="director_day.yaml", filename_audit="audit_day.yaml"):
         # 文件路径
         filename_director = BASE_PATH + os.sep + "data" + os.sep + filename_director
         filepath_day = BASE_PATH + os.sep + "data" + os.sep + filename_day
@@ -212,7 +212,8 @@ class GetProgram:
             f.write(audit_yaml)
         with open(filename_director, "w", encoding="utf-8") as f:
             f.write(director_yaml)
-        return day_yaml
+        yaml_dict = {"director": director_yaml, "director_day": day_yaml, "audit_day": audit_yaml}
+        return yaml_dict
 
     # 获取基本信息
     def get_info(self, num):
@@ -249,39 +250,68 @@ class GetProgram:
 
         return info_dict
 
-    # 清空report目录
-    report_path = BASE_PATH + os.sep + "report" + os.sep
 
-    def clear_report(self, path=report_path):
-        ls = os.listdir(path)
-        for i in ls:
-            c_path = os.path.join(path, i)
-            if os.path.isdir(c_path):
-                self.clear_report(c_path)
-            else:
-                os.remove(c_path)
-
-
-if __name__ == '__main__':
+# 选择文件
+def select_file():
     # 获取xlsx文件名称
     filepath = BASE_PATH + os.sep + "data"
     filelist = os.listdir(filepath)
+    data_list = []
     data_name = ""
     for i in filelist:
-        if i.endswith(".xlsx"):
-            data_name = i
-            break
-    print(data_name)
+        if i.endswith(".xlsx") and i.startswith("2"):
+            data_list.append(i)
+    if len(data_list) != 1:
+        print("data目录中存在多个xlsx文件：", data_list)
+        data_name = input("选择文件：")
+    else:
+        data_name = data_list[0]
+    print("已选择：", data_name)
+    return data_name
 
+
+# 生成 director.yaml, director_day.yaml, audit_day.yaml
+def generate_yaml(data_name):
     get_prog = GetProgram(data_name)
-    print(get_prog.get_program(6))
-    print(get_prog.get_info(6))
-    print(get_prog.get_signal(6))
+    yaml_dict = get_prog.generate_test_yaml()
+    print("生成yaml文件：director.yaml, director_day.yaml, audit_day.yaml\n\n", yaml_dict.get("director"), "\n", yaml_dict.get("director_day"), "\n", yaml_dict.get("audit_day"), sep="")
+
+
+# 初始化
+def director_test_init():
+    da_name = select_file()
+    generate_yaml(da_name)
+
+
+# 清空report目录
+# report_path = BASE_PATH + os.sep + "report" + os.sep
+def clear_report(path=BASE_PATH + os.sep + "report" + os.sep):
+    ls = os.listdir(path)
+    for i in ls:
+        c_path = os.path.join(path, i)
+        if os.path.isdir(c_path):
+            clear_report(c_path)
+        else:
+            os.remove(c_path)
+    print("report clear")
+
+
+if __name__ == '__main__':
+    # 初始化
+    director_test_init()
+    # 清空report
+    # clear_report()
+
+    # get_prog = GetProgram(data_name)
+    # print(get_prog.get_program(6))
+    # print(get_prog.get_info(6))
+    # print(get_prog.get_signal(6))
     # print(get_prog.get_signal_by_date('2027-08-16'))
-    print(get_prog.get_week_date())
+    # print(get_prog.get_week_date())
 
     # 生成 director.yaml, director_day.yaml, audit_day.yaml
-    print(get_prog.generate_director_day_yaml())
+    # yaml_dict = get_prog.generate_director_day_yaml()
+    # print("生成yaml文件：director.yaml, director_day.yaml, audit_day.yaml\n\n", yaml_dict.get("director"), "\n", yaml_dict.get("director_day"), "\n", yaml_dict.get("audit_day"), sep="")
 
     # 清空report目录
     # get_prog.clear_report()

@@ -111,7 +111,7 @@ class BaseWeb(Base):
     # 循环判断选择年份
     def __loop_select_year(self, year):
         year_list = self.base_get_text_list(page.date_year_list)
-        print("year_list", year_list)
+        # print("year_list", year_list)
         try:
             # 年份列表包含数据年份
             if operator.contains(year_list, str(year)):

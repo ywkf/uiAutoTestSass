@@ -121,6 +121,8 @@ director_create_week = By.XPATH, "//li//*[text()='创建周播单']/.."
 director_belong_channel = By.XPATH, "//*[@for='channelId']/following-sibling::div[1]//input/.."
 # 周播单名称
 director_week_name = By.XPATH, "//*[text()='周播单名称']/..//input"
+# 提示信息
+director_create_week_msg = By.XPATH, "//*[@class='el-notification__content']//p"
 
 # 开播时间
 director_playtime = By.XPATH, "//*[@class='el-table_1_column_3   el-table__cell']//input"

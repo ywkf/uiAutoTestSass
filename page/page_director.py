@@ -1,3 +1,6 @@
+import operator
+
+import pytest
 from selenium.webdriver.common.by import By
 
 import page
@@ -163,13 +166,23 @@ class PageDirector(BaseWeb):
     def page_search_input_day_name(self, day_name):
         self.base_clipboard(page.director_day_search_name, day_name)
 
-    # 组合创建周播单方法
-    def page_create_week_list(self):
-        pass
+    # 获取提示信息
+    def page_get_msg(self):
+        return self.base_get_text(page.director_create_week_msg)
 
-    # 组合创建日播单方法
-    def page_create_day_list(self):
-        pass
+    # 判断周播单是否存在
+    def page_week_program_is_exist(self):
+        msg = self.page_get_msg()
+        if operator.contains(msg, "已存在周播单"):
+            print(msg)
+            return True
+        else:
+            return False
+
+    # 周播单已存在退出
+    def page_week_exist_exit(self):
+        if self.page_week_program_is_exist():
+            pytest.exit("周播单已存在")
 
     # 周播单基本信息
     def page_program_week_info(self, filename):
@@ -194,8 +207,7 @@ class PageDirector(BaseWeb):
         log.info("正在调用创建周播单方法，文件名：{}".format(filename))
         for table in range(7):
             prog_list = GetProgram(filename).get_program(table)
-            # prog_list = [{'row': '1', 'duration': '12:00:00', 'program_name': '好剧连连看-1', 'column': '河南法治报道'},
-            #              {'row': '2', 'duration': '12:00:00', 'program_name': '好剧连连看-2', 'column': '河南法治报道'}]
+            # prog_list = [{'row': '1', 'duration': '12:00:00', 'program_name': '好剧连连看-1', 'column': '河南法治报道'}]
             last = prog_list[-1].get("row")
             for prog in prog_list:
                 row = prog.get("row")

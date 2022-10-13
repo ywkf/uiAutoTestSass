@@ -51,6 +51,11 @@ if __name__ == '__main__':
     secret = "6co73ayr4rnquvaxca427rgp24av3ssc"
     print(secret.upper())
 
+    msg = "该频道该时间段已存在周播单，请重新选择时间"
+    print(operator.contains(msg, "已存在周播单"))
+
+
+
 
 
 

@@ -1,15 +1,23 @@
-# This is a sample Python script.
+import subprocess
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from tools.get_program import director_test_init, clear_report
 
 
-# Press the green button in the gutter to run the script.
+# 执行测试用例
+def run_test():
+    subprocess.run("pytest")
+
+
+# 生成测试报告
+def generate_report():
+    subprocess.run("allure serve report")
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    # 初始化生成测试数据
+    director_test_init()
+    # 执行测试用例
+    run_test()
+    # 清空report
+    # clear_report()
 
