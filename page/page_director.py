@@ -168,16 +168,19 @@ class PageDirector(BaseWeb):
 
     # 获取提示信息
     def page_get_msg(self):
-        return self.base_get_text(page.director_create_week_msg)
+        return self.base_get_text(page.director_create_week_msg, timeout=3, poll=0.2)
 
     # 判断周播单是否存在
     def page_week_program_is_exist(self):
-        msg = self.page_get_msg()
-        if operator.contains(msg, "已存在周播单"):
-            print(msg)
-            return True
-        else:
+        if not self.base_ele_is_exist(page.director_create_week_msg, timeout=3, poll=0.2):
             return False
+        else:
+            msg = self.page_get_msg()
+            if operator.contains(msg, "已存在周播单"):
+                print(msg)
+                return True
+            else:
+                return False
 
     # 周播单已存在退出
     def page_week_exist_exit(self):

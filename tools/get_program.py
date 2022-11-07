@@ -297,7 +297,7 @@ def clear_report(path=BASE_PATH + os.sep + "report" + os.sep):
 
 
 if __name__ == '__main__':
-    # 初始化
+    # 初始化生成yaml测试数据
     director_test_init()
     # 清空report
     # clear_report()

@@ -181,7 +181,7 @@ class PageAudit(BaseWeb):
         log.info("正在调用断言业务方法（日播单总编室审核），日播单名称：{}，审核状态：{}".format(day_name, state))
         sleep(0.5)
         program_dict = self.page_day_manage_search(state=state, day_name=day_name)
-        sleep(2)
+        sleep(0.5)
         return program_dict.get("exist")
 
     # 断言业务方法（周播单审核）
@@ -200,7 +200,7 @@ class PageAudit(BaseWeb):
         log.info("正在调用断言业务方法（日播单部门审核），日播单名称：{}，审核状态：{}".format(day_name, state))
         sleep(0.5)
         program_dict = self.page_day_manage_search(state=state, day_name=day_name)
-        sleep(2)
+        sleep(0.5)
         self.base_click(page.director_manage_view_first_btn)
         sleep(0.5)
         class1 = self.base_get_ele_attribute(page.director_route_department, "class")

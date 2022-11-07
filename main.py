@@ -10,14 +10,17 @@ def run_test():
 
 # 生成测试报告
 def generate_report():
-    subprocess.run("allure serve report")
+    subprocess.run("allure serve report", shell=True)
 
 
 if __name__ == '__main__':
-    # 初始化生成测试数据
+    # 初始化生成yaml测试数据
     director_test_init()
     # 执行测试用例
     run_test()
-    # 清空report
+
+    # 生成测试报告
+    generate_report()
+    # # 清空report
     # clear_report()
 
